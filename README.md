@@ -24,7 +24,7 @@ The guide is organized into six tabs:
 The guide is a single `.html` file. Open it in any modern browser — no server, framework, or dependencies required.
 
 ```
-open mykaarma-ai-guide.html
+open index.html
 ```
 
 To share it with the team, drop the file in a shared drive, Notion embed, or internal server. Everything runs client-side.
@@ -164,7 +164,7 @@ mykaarma-ai-guide-v6.html
 ## Repository files
 
 ```
-mykaarma-ai-guide.html    — The complete guide (open in any browser, no install needed)
+index.html    — The complete guide (open in any browser, no install needed)
 prompt-workshop.jsx       — Standalone React artifact for the AI-powered Workshop tools
 README.md                 — This file
 ```
