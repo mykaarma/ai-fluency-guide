@@ -1,0 +1,3981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>myKaarma Design · AI Fluency Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0D1F3C;
+    --paper: #f4f6fa;
+    --cream: #e8edf5;
+    --accent: #F26522;
+    --accent2: #2EAE6C;
+    --accent3: #f8c06a;
+    --accent4: #0D1F3C;
+    --muted: #6B7A99;
+    --card: #ffffff;
+    --card-hover: #fafbff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.3;
+  }
+
+  .progress-bar {
+    position: fixed;
+    top: 52px; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    transition: width 0.3s;
+    z-index: 10000;
+    width: 0%;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 52px;
+    background: rgba(244,246,250,0.96);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid rgba(13,31,60,0.1);
+    z-index: 100;
+    padding: 0 2rem;
+  }
+
+  .nav-inner {
+    max-width: 940px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav-inner::-webkit-scrollbar { display: none; }
+
+  .nav-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1rem 1.2rem;
+    cursor: pointer;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    white-space: nowrap;
+    transition: all 0.2s;
+    background: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+  }
+
+  .nav-tab:hover { color: var(--ink); }
+  .nav-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* HEADER */
+  header {
+    padding: 3.5rem 2rem 2.5rem;
+    max-width: 940px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 5vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  h1 em { font-style: italic; color: var(--accent); }
+
+  .subtitle {
+    font-size: 0.98rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 560px;
+    line-height: 1.65;
+  }
+
+  /* PAGE SECTIONS */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  main {
+    max-width: 940px;
+    margin: 0 auto;
+    padding: 2rem 2rem 5rem;
+  }
+
+  /* ─── GLOSSARY ─── */
+  .filter-bar {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.38rem 0.9rem;
+    border: 1px solid rgba(26,18,8,0.22);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--ink); color: var(--paper); border-color: var(--ink);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin: 2.5rem 0 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .section-label::after {
+    content: ''; flex: 1; height: 1px; background: rgba(26,18,8,0.12);
+  }
+
+  .term-card {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-left: 3px solid transparent;
+    padding: 1.4rem 1.5rem;
+    margin-bottom: 0.75rem;
+    cursor: pointer;
+    transition: all 0.22s;
+  }
+
+  .term-card:hover {
+    border-left-color: var(--accent);
+    box-shadow: 0 3px 16px rgba(13,31,60,0.07);
+    transform: translateX(2px);
+  }
+
+  .term-card.open {
+    border-left-color: var(--accent);
+    background: var(--card-hover);
+  }
+
+  .term-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .term-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.96rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .term-teaser {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-top: 0.3rem;
+    font-weight: 300;
+  }
+
+  .term-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.18rem 0.55rem;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+
+  .tag-model { background: rgba(200,75,47,0.1); color: var(--accent); }
+  .tag-agent { background: rgba(45,106,79,0.1); color: var(--accent2); }
+  .tag-pm { background: rgba(233,196,106,0.2); color: #8a6900; }
+  .tag-infra { background: rgba(26,18,8,0.07); color: var(--muted); }
+
+  .term-body {
+    display: none;
+    margin-top: 1.1rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(13,31,60,0.08);
+  }
+  .term-card.open .term-body { display: block; }
+
+  .term-body p {
+    font-size: 0.9rem;
+    line-height: 1.72;
+    color: var(--ink);
+    margin-bottom: 0.9rem;
+    font-weight: 300;
+  }
+
+  .analogy-badge {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    background: var(--cream);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 0.18rem 0.5rem;
+    border-radius: 2px;
+    color: var(--muted);
+    margin-bottom: 0.7rem;
+  }
+
+  .designer-take {
+    background: rgba(242,101,34,0.05);
+    border-left: 2px solid var(--accent);
+    padding: 0.75rem 1rem;
+    margin-top: 0.4rem;
+    border-radius: 0 3px 3px 0;
+  }
+  .designer-take .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+  .designer-take p { font-size: 0.85rem; color: #7a3010; margin: 0; }
+
+  .pm-angle {
+    background: rgba(13,31,60,0.04);
+    border-left: 2px solid var(--accent4);
+    padding: 0.75rem 1rem;
+    margin-top: 0.5rem;
+    border-radius: 0 3px 3px 0;
+  }
+  .pm-angle .label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent4);
+    margin-bottom: 0.35rem;
+    font-weight: 500;
+  }
+  .pm-angle p { font-size: 0.85rem; color: var(--ink); margin: 0; opacity: 0.8; }
+
+  .toggle-icon {
+    font-size: 1.15rem;
+    color: var(--muted);
+    transition: transform 0.2s;
+    flex-shrink: 0;
+    line-height: 1;
+  }
+  .term-card.open .toggle-icon { transform: rotate(45deg); color: var(--accent); }
+
+  .hidden { display: none !important; }
+
+  /* ─── PROMPT GUIDE ─── */
+  .guide-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 640px) { .guide-grid { grid-template-columns: 1fr; } }
+
+  .principle-card {
+    background: var(--card);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 1.4rem;
+    border-radius: 2px;
+    transition: box-shadow 0.2s;
+  }
+  .principle-card:hover { box-shadow: 0 4px 20px rgba(26,18,8,0.07); }
+
+  .principle-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: rgba(200,75,47,0.15);
+    line-height: 1;
+    margin-bottom: 0.5rem;
+  }
+
+  .principle-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.6rem;
+  }
+
+  .principle-body {
+    font-size: 0.86rem;
+    color: var(--muted);
+    line-height: 1.65;
+    font-weight: 300;
+  }
+
+  .example-block {
+    margin-top: 0.8rem;
+    background: var(--cream);
+    border: 1px solid rgba(26,18,8,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .example-block .ex-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.7rem;
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .ex-label.bad { background: rgba(200,75,47,0.1); color: #c84b2f; }
+  .ex-label.good { background: rgba(45,106,79,0.1); color: #2d6a4f; }
+
+  .example-block .ex-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    padding: 0.6rem 0.7rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  /* ─── ANATOMY SECTION ─── */
+  .anatomy-wrapper {
+    background: var(--card);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 2px;
+  }
+
+  .anatomy-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .anatomy-sub {
+    font-size: 0.86rem;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+  }
+
+  .anatomy-part {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    align-items: flex-start;
+  }
+
+  .anatomy-bracket {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    padding: 0.25rem 0.6rem;
+    border-radius: 2px;
+    min-width: 110px;
+    text-align: center;
+    font-weight: 500;
+  }
+
+  .bracket-role { background: rgba(58,90,140,0.12); color: var(--accent4); }
+  .bracket-context { background: rgba(45,106,79,0.1); color: var(--accent2); }
+  .bracket-task { background: rgba(200,75,47,0.1); color: var(--accent); }
+  .bracket-format { background: rgba(233,196,106,0.2); color: #8a6900; }
+  .bracket-constraint { background: rgba(26,18,8,0.07); color: var(--muted); }
+  .bracket-example { background: rgba(139,92,246,0.1); color: #6d28d9; }
+
+  .anatomy-desc {
+    font-size: 0.86rem;
+    color: var(--ink);
+    line-height: 1.6;
+    font-weight: 300;
+  }
+
+  .anatomy-desc strong {
+    font-weight: 500;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+  }
+
+  /* ─── TEMPLATES ─── */
+  .template-tabs {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.5rem;
+  }
+
+  .tmpl-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.38rem 0.85rem;
+    border: 1px solid rgba(26,18,8,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .tmpl-tab:hover { color: var(--ink); border-color: var(--ink); }
+  .tmpl-tab.active { background: var(--accent4); color: white; border-color: var(--accent4); }
+
+  .template-panel { display: none; }
+  .template-panel.active { display: block; }
+
+  .template-card {
+    background: var(--card);
+    border: 1px solid rgba(26,18,8,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.2rem;
+  }
+
+  .template-header {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid rgba(26,18,8,0.08);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .template-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.82rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .template-use {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.2rem;
+  }
+
+  .copy-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(26,18,8,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .copy-btn:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .copy-btn.copied { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  .template-body {
+    padding: 1.2rem 1.4rem;
+  }
+
+  .prompt-block {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.7;
+    color: var(--ink);
+    white-space: pre-wrap;
+    background: var(--cream);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 1rem 1.2rem;
+    border-radius: 2px;
+  }
+
+  .fill-in { color: var(--accent4); font-weight: 500; }
+  .comment { color: var(--muted); font-style: italic; }
+
+  .prompt-tips {
+    margin-top: 0.9rem;
+  }
+
+  .tip-item {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    line-height: 1.55;
+    font-weight: 300;
+  }
+  .tip-item::before { content: '→'; color: var(--accent); flex-shrink: 0; }
+
+  /* ─── BUILDER ─── */
+  .builder-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 680px) { .builder-wrapper { grid-template-columns: 1fr; } }
+
+  .builder-form {
+    background: var(--card);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 1.5rem;
+    border-radius: 2px;
+  }
+
+  .builder-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+
+  .field-group {
+    margin-bottom: 1rem;
+  }
+
+  .field-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.35rem;
+    display: block;
+  }
+
+  .field-label span {
+    color: var(--accent);
+  }
+
+  select, textarea, input[type="text"] {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid rgba(26,18,8,0.18);
+    padding: 0.55rem 0.75rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    -webkit-appearance: none;
+  }
+
+  select:focus, textarea:focus, input:focus {
+    border-color: var(--accent4);
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 70px;
+    line-height: 1.55;
+  }
+
+  .build-btn {
+    width: 100%;
+    margin-top: 0.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.75rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: background 0.2s;
+  }
+  .build-btn:hover { background: var(--accent); }
+
+  .builder-output {
+    background: #0D1F3C;
+    border: 1px solid rgba(255,255,255,0.08);
+    padding: 1.5rem;
+    border-radius: 2px;
+    position: sticky;
+    top: 110px;
+  }
+
+  .output-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.35);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .copy-output-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.4);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .copy-output-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+  .copy-output-btn.copied { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  #builtPrompt {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    line-height: 1.75;
+    color: rgba(255,255,255,0.75);
+    white-space: pre-wrap;
+    min-height: 200px;
+  }
+
+  #builtPrompt .part-role { color: #7dd3b8; }
+  #builtPrompt .part-context { color: #93c5fd; }
+  #builtPrompt .part-task { color: #fca5a5; }
+  #builtPrompt .part-format { color: #fde68a; }
+  #builtPrompt .part-constraint { color: #d8b4fe; }
+  #builtPrompt .part-example { color: #86efac; }
+
+  .placeholder-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.2);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .legend {
+    margin-top: 1.2rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .legend-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    padding: 0.15rem 0.4rem;
+    border-radius: 2px;
+  }
+
+  /* ─── CHEATSHEET ─── */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+
+  .cheat-card {
+    background: var(--card);
+    border: 1px solid rgba(26,18,8,0.1);
+    padding: 1.3rem;
+    border-radius: 2px;
+  }
+
+  .cheat-icon { font-size: 1.4rem; margin-bottom: 0.5rem; display: block; }
+
+  .cheat-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .cheat-do, .cheat-dont {
+    font-size: 0.82rem;
+    line-height: 1.6;
+    margin-bottom: 0.35rem;
+    padding-left: 1.1rem;
+    position: relative;
+    font-weight: 300;
+  }
+  .cheat-do::before { content: '✓'; position: absolute; left: 0; color: var(--accent2); font-size: 0.75rem; }
+  .cheat-dont::before { content: '✗'; position: absolute; left: 0; color: var(--accent); font-size: 0.75rem; }
+
+  .divider {
+    border: none;
+    border-top: 1px solid rgba(26,18,8,0.08);
+    margin: 1.5rem 0;
+  }
+
+  footer {
+    text-align: center;
+    padding: 2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    border-top: 1px solid rgba(13,31,60,0.1);
+    margin-top: 2rem;
+  }
+
+  /* ─── COMMUNITY TEMPLATES ─── */
+  .add-template-section {
+    margin-top: 2rem;
+    background: var(--card);
+    border: 1.5px dashed rgba(46,174,108,0.4);
+    border-radius: 4px;
+    padding: 1.5rem;
+  }
+
+  .add-section-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.3rem;
+  }
+
+  .add-section-sub {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .add-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+  @media(max-width:580px){ .add-form-grid { grid-template-columns: 1fr; } }
+
+  .form-group { display: flex; flex-direction: column; gap: 0.3rem; }
+  .form-group.full { grid-column: 1 / -1; }
+
+  .form-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    font-weight: 500;
+  }
+  .form-label .req { color: var(--accent); }
+
+  .form-input, .form-select, .form-textarea {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid rgba(13,31,60,0.18);
+    padding: 0.5rem 0.75rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent2); }
+  .form-textarea { resize: vertical; min-height: 100px; line-height: 1.55; font-family: 'DM Mono', monospace; font-size: 0.76rem; }
+
+  .add-submit-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.6rem 1.4rem;
+    background: var(--accent2);
+    color: white;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: opacity 0.18s;
+    font-weight: 500;
+  }
+  .add-submit-btn:hover { opacity: 0.85; }
+
+  .community-card {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-left: 3px solid var(--accent2);
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-radius: 2px;
+  }
+
+  .community-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: rgba(46,174,108,0.1);
+    color: var(--accent2);
+    padding: 0.15rem 0.5rem;
+    border-radius: 2px;
+  }
+
+  .author-tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  .delete-tmpl-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.55rem;
+    border: 1px solid rgba(200,50,50,0.25);
+    background: transparent;
+    color: #c43030;
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .delete-tmpl-btn:hover { background: #c43030; color: white; border-color: #c43030; }
+
+  .empty-state {
+    text-align: center;
+    padding: 2.5rem 1rem;
+    border: 1px dashed rgba(13,31,60,0.15);
+    border-radius: 2px;
+    margin-bottom: 1.5rem;
+    color: var(--muted);
+  }
+  .empty-state .empty-icon { font-size: 1.8rem; margin-bottom: 0.6rem; display: block; }
+  .empty-state h3 { font-size: 0.9rem; font-weight: 500; color: var(--ink); margin-bottom: 0.3rem; }
+  .empty-state p { font-size: 0.82rem; max-width: 300px; margin: 0 auto; line-height: 1.6; font-weight: 300; }
+
+  /* Save-as-template button in builder */
+  .save-as-tmpl-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1rem;
+    background: rgba(46,174,108,0.1);
+    color: var(--accent2);
+    border: 1px solid rgba(46,174,108,0.3);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.18s;
+    font-weight: 500;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+  .save-as-tmpl-btn:hover { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  /* Save modal overlay */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(13,31,60,0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+
+  .modal-box {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.12);
+    padding: 1.8rem;
+    max-width: 460px;
+    width: 90%;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .modal-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.3rem;
+    font-weight: 500;
+  }
+
+  .modal-sub {
+    font-size: 0.84rem;
+    color: var(--muted);
+    margin-bottom: 1.2rem;
+    font-weight: 300;
+  }
+
+  .modal-close {
+    position: absolute;
+    top: 1rem; right: 1rem;
+    background: none;
+    border: none;
+    font-size: 1.1rem;
+    color: var(--muted);
+    cursor: pointer;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--ink); }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .modal-cancel {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1rem;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(13,31,60,0.2);
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.18s;
+  }
+  .modal-cancel:hover { color: var(--ink); border-color: var(--ink); }
+
+  .page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+  .page-title em { font-style: italic; color: var(--accent); }
+
+  .page-subtitle {
+    font-size: 0.9rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 2rem;
+    max-width: 520px;
+    line-height: 1.6;
+  }
+
+  /* ─── WORKSHOP MODE TABS ─── */
+  .workshop-tabs {
+    display: flex;
+    gap: 0;
+    border: 1px solid rgba(13,31,60,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1.8rem;
+    width: fit-content;
+  }
+  .ws-tab {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.55rem 1.15rem;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.18s;
+    border-right: 1px solid rgba(13,31,60,0.15);
+  }
+  .ws-tab:last-child { border-right: none; }
+  .ws-tab:hover { color: var(--ink); background: var(--cream); }
+  .ws-tab.active { background: var(--ink); color: var(--paper); }
+  .ws-panel { display: none; }
+  .ws-panel.active { display: block; }
+
+  /* ─── PROMPTING GUIDE SECTIONS ─── */
+  .guide-section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 2.5rem 0 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .guide-section-label::after {
+    content: ''; flex: 1; height: 1px; background: rgba(242,101,34,0.2);
+  }
+
+  /* ─── ANATOMY INLINE IN GUIDE ─── */
+  .blocks-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+  @media(max-width:580px){ .blocks-grid { grid-template-columns: 1fr; } }
+
+  .block-card {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    padding: 1rem 1.1rem;
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+  }
+  .block-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.22rem 0.55rem;
+    border-radius: 2px;
+    white-space: nowrap;
+    font-weight: 500;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .block-text { font-size: 0.84rem; color: var(--muted); font-weight: 300; line-height: 1.55; }
+  .block-text strong { font-weight: 500; color: var(--ink); font-size: 0.85rem; display: block; margin-bottom: 0.2rem; }
+
+  /* ─── WORKSHOP OUTPUT ACTIONS ─── */
+  .ws-output-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+    flex-wrap: wrap;
+  }
+  .ws-action-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.28rem 0.7rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: transparent;
+    color: rgba(255,255,255,0.45);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .ws-action-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+  .ws-action-btn.green:hover { border-color: #86efac; color: #86efac; }
+  .ws-action-btn.copied { background: var(--accent2); color: white; border-color: var(--accent2); }
+
+  /* ─── WORKSHOP CONTEXT BAR ─── */
+  .ws-context-bar {
+    background: var(--cream);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    padding: 0.75rem 1rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .ws-ctx-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ws-ctx-input {
+    flex: 1;
+    min-width: 200px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.84rem;
+    color: var(--ink);
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 0;
+  }
+  .ws-ctx-input::placeholder { color: var(--muted); font-weight: 300; }
+  .glossary-search-wrap {
+    position: relative;
+    margin-bottom: 1.2rem;
+  }
+  .glossary-search-wrap::before {
+    content: '🔍';
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.8rem;
+    pointer-events: none;
+  }
+  .glossary-search {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    background: var(--card);
+    border: 1.5px solid rgba(13,31,60,0.15);
+    padding: 0.65rem 1rem 0.65rem 2.4rem;
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .glossary-search:focus { border-color: var(--accent); }
+  .glossary-search::placeholder { color: var(--muted); font-weight: 300; }
+  .search-count {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    margin-bottom: 1.2rem;
+    min-height: 1em;
+  }
+  .term-card.search-hidden { display: none !important; }
+  .term-highlight { background: rgba(242,101,34,0.15); border-radius: 2px; padding: 0 2px; }
+
+  /* ─── AI TOOL PAGES (critique + transformer) ─── */
+  .ai-tool-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    align-items: start;
+  }
+  @media(max-width: 680px) { .ai-tool-wrap { grid-template-columns: 1fr; } }
+
+  .ai-input-panel {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    padding: 1.5rem;
+  }
+
+  .ai-panel-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    display: block;
+  }
+
+  .ai-textarea {
+    width: 100%;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--ink);
+    background: var(--paper);
+    border: 1px solid rgba(13,31,60,0.15);
+    padding: 0.8rem 0.9rem;
+    border-radius: 2px;
+    outline: none;
+    resize: vertical;
+    min-height: 180px;
+    line-height: 1.65;
+    transition: border-color 0.2s;
+  }
+  .ai-textarea:focus { border-color: var(--accent); }
+
+  .ai-run-btn {
+    width: 100%;
+    margin-top: 0.75rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 0.7rem;
+    background: var(--ink);
+    color: var(--paper);
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.2s;
+    font-weight: 500;
+  }
+  .ai-run-btn:hover { background: var(--accent); }
+  .ai-run-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .ai-output-panel {
+    background: #0D1F3C;
+    border-radius: 2px;
+    padding: 1.5rem;
+    position: sticky;
+    top: 110px;
+    min-height: 300px;
+  }
+
+  .ai-output-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .ai-output-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.86rem;
+    color: rgba(255,255,255,0.78);
+    line-height: 1.72;
+    white-space: pre-wrap;
+    min-height: 200px;
+  }
+
+  .ai-placeholder {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.74rem;
+    color: rgba(255,255,255,0.2);
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  .ai-loading {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: rgba(255,255,255,0.4);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+  }
+
+  .dot-pulse {
+    display: flex;
+    gap: 3px;
+  }
+  .dot-pulse span {
+    width: 5px; height: 5px;
+    background: var(--accent);
+    border-radius: 50%;
+    animation: pulse 1.2s ease-in-out infinite;
+  }
+  .dot-pulse span:nth-child(2) { animation-delay: 0.2s; }
+  .dot-pulse span:nth-child(3) { animation-delay: 0.4s; }
+
+  @keyframes pulse {
+    0%, 80%, 100% { opacity: 0.2; transform: scale(0.8); }
+    40% { opacity: 1; transform: scale(1); }
+  }
+
+  .ai-score-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.68rem;
+    padding: 0.25rem 0.65rem;
+    border-radius: 100px;
+    font-weight: 500;
+  }
+  .score-weak   { background: rgba(239,68,68,0.2);  color: #fca5a5; }
+  .score-ok     { background: rgba(248,192,106,0.2); color: #fde68a; }
+  .score-strong { background: rgba(46,174,108,0.2);  color: #86efac; }
+
+  .tip-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .tip-chip {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.06em;
+    background: rgba(242,101,34,0.12);
+    color: #F26522;
+    padding: 0.2rem 0.55rem;
+    border-radius: 100px;
+    cursor: pointer;
+    transition: background 0.15s;
+    border: none;
+  }
+  .tip-chip:hover { background: rgba(242,101,34,0.22); }
+
+  /* ─── BEFORE/AFTER SPECIFIC ─── */
+  .ba-mode-bar {
+    display: flex;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .ba-mode-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.85rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .ba-mode-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+  /* ─── RED FLAGS CHECKLIST ─── */
+  .rf-category {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .rf-cat-head {
+    padding: 1rem 1.4rem;
+    border-bottom: 1px solid rgba(13,31,60,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--cream);
+  }
+
+  .rf-cat-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .rf-progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  .rf-items { padding: 0.5rem 0; }
+
+  .rf-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    padding: 0.8rem 1.4rem;
+    border-bottom: 1px solid rgba(13,31,60,0.05);
+    cursor: pointer;
+    transition: background 0.15s;
+    user-select: none;
+  }
+  .rf-item:last-child { border-bottom: none; }
+  .rf-item:hover { background: rgba(13,31,60,0.02); }
+  .rf-item.checked { background: rgba(46,174,108,0.04); }
+
+  .rf-checkbox {
+    width: 18px; height: 18px;
+    border: 1.5px solid rgba(13,31,60,0.25);
+    border-radius: 3px;
+    flex-shrink: 0;
+    margin-top: 1px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s;
+    font-size: 0.7rem;
+  }
+  .rf-item.checked .rf-checkbox {
+    background: var(--accent2);
+    border-color: var(--accent2);
+    color: white;
+  }
+
+  .rf-item-content { flex: 1; }
+  .rf-item-q {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+    line-height: 1.45;
+  }
+  .rf-item.checked .rf-item-q { color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(13,31,60,0.2); }
+  .rf-item-why {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.5;
+    font-weight: 300;
+  }
+
+  .rf-severity {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 100px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    font-weight: 500;
+  }
+  .sev-critical { background: rgba(239,68,68,0.12); color: #dc2626; }
+  .sev-high     { background: rgba(242,101,34,0.12); color: var(--accent); }
+  .sev-medium   { background: rgba(248,192,106,0.15); color: #b45309; }
+
+  .rf-summary-bar {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    padding: 1.2rem 1.4rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .rf-total-score {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1;
+  }
+
+  .rf-score-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.2rem;
+  }
+
+  .rf-bar-track {
+    flex: 1;
+    min-width: 140px;
+    height: 6px;
+    background: rgba(13,31,60,0.08);
+    border-radius: 100px;
+    overflow: hidden;
+  }
+  .rf-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 100px;
+    transition: width 0.4s ease;
+  }
+
+  .rf-verdict {
+    font-size: 0.86rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .rf-verdict-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-weight: 300;
+    margin-top: 0.1rem;
+  }
+
+  .rf-reset-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+    margin-left: auto;
+  }
+  .rf-reset-btn:hover { color: var(--accent); border-color: var(--accent); }
+  /* ─── EDIT BUTTON ─── */
+  .edit-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .edit-btn:hover { background: rgba(242,101,34,0.08); color: var(--accent); border-color: var(--accent); }
+
+  /* ─── CHANGELOG ─── */
+  .cl-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.2rem;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .cl-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--ink);
+    margin-bottom: 0.2rem;
+  }
+  .cl-sub {
+    font-size: 0.84rem;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 480px;
+    line-height: 1.55;
+  }
+  .cl-clear-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.35rem 0.8rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .cl-clear-btn:hover { color: #c43030; border-color: #c43030; }
+
+  .cl-entry {
+    background: var(--card);
+    border: 1px solid rgba(13,31,60,0.09);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    margin-bottom: 0.85rem;
+    overflow: hidden;
+  }
+  .cl-entry.restore-entry { border-left-color: var(--accent4); }
+
+  .cl-entry-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0.85rem 1.2rem 0.7rem;
+    gap: 1rem;
+  }
+
+  .cl-entry-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    align-items: center;
+    margin-bottom: 0.3rem;
+  }
+
+  .cl-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.45rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+  .cl-badge-edit    { background: rgba(242,101,34,0.1); color: var(--accent); }
+  .cl-badge-add     { background: rgba(46,174,108,0.1); color: var(--accent2); }
+  .cl-badge-restore { background: rgba(13,31,60,0.08); color: var(--ink); }
+
+  .cl-tmpl-name {
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .cl-timestamp {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+  .cl-reason {
+    font-size: 0.8rem;
+    color: var(--muted);
+    font-weight: 300;
+    font-style: italic;
+    margin-top: 0.2rem;
+  }
+
+  .cl-entry-actions {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+    align-items: flex-start;
+  }
+
+  .cl-toggle-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .cl-toggle-btn:hover { color: var(--ink); border-color: var(--ink); }
+
+  .cl-restore-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    border: 1px solid rgba(13,31,60,0.2);
+    background: transparent;
+    color: var(--accent4);
+    cursor: pointer;
+    border-radius: 2px;
+    transition: all 0.18s;
+  }
+  .cl-restore-btn:hover { background: var(--accent4); color: var(--paper); border-color: var(--accent4); }
+
+  .cl-diff {
+    display: none;
+    margin: 0 1.2rem 1rem;
+    border: 1px solid rgba(13,31,60,0.1);
+    border-radius: 2px;
+    overflow: hidden;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    line-height: 1.65;
+  }
+  .cl-diff.open { display: block; }
+
+  .diff-removed {
+    background: rgba(239,68,68,0.07);
+    color: #b91c1c;
+    padding: 0.6rem 1rem;
+    white-space: pre-wrap;
+    border-bottom: 1px solid rgba(239,68,68,0.12);
+  }
+  .diff-added {
+    background: rgba(46,174,108,0.07);
+    color: #166534;
+    padding: 0.6rem 1rem;
+    white-space: pre-wrap;
+  }
+  .diff-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    display: block;
+    margin-bottom: 0.3rem;
+    font-weight: 600;
+  }
+
+  /* ─── CHANGELOG BADGE ON TAB ─── */
+  .cl-count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--accent);
+    color: white;
+    font-size: 0.55rem;
+    font-weight: 700;
+    min-width: 16px;
+    height: 16px;
+    border-radius: 100px;
+    padding: 0 4px;
+    margin-left: 4px;
+    vertical-align: middle;
+    font-family: 'DM Mono', monospace;
+  }
+</style>
+</head>
+<body>
+
+<!-- myKaarma brand topbar -->
+<div style="background:#0D1F3C;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:200;box-shadow:0 2px 10px rgba(13,31,60,0.3);">
+  <div style="display:flex;align-items:center;gap:0.75rem;">
+    <div style="width:30px;height:30px;background:#F26522;border-radius:7px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:0.78rem;color:white;flex-shrink:0;font-family:'DM Mono',monospace;">mK</div>
+    <span style="font-size:0.88rem;font-weight:600;color:white;letter-spacing:-0.01em;">my<span style="color:#F26522;">Kaarma</span></span>
+    <span style="width:1px;height:16px;background:rgba(255,255,255,0.2);margin:0 0.4rem;"></span>
+    <span style="font-family:'DM Mono',monospace;font-size:0.62rem;color:rgba(255,255,255,0.45);letter-spacing:0.1em;text-transform:uppercase;">Design Team</span>
+  </div>
+  <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:rgba(255,255,255,0.3);letter-spacing:0.08em;">AI Fluency Guide · v3</span>
+</div>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<header>
+  <p class="eyebrow">myKaarma Design Team · Internal Resource</p>
+  <h1>AI fluency for<br><em>designers who lead.</em></h1>
+  <p class="subtitle">From understanding how AI works, to writing prompts that get results — your team's complete toolkit for showing up confidently at myKaarma.</p>
+</header>
+
+<nav>
+  <div class="nav-inner">
+    <button class="nav-tab active" onclick="showPage('glossary', this)">📖 Glossary</button>
+    <button class="nav-tab" onclick="showPage('prompting', this)">💡 Prompt Guide</button>
+    <button class="nav-tab" onclick="showPage('templates', this)">📄 Templates</button>
+    <button class="nav-tab" onclick="showPage('workshop', this)">⚡ Prompt Workshop</button>
+    <button class="nav-tab" onclick="showPage('redflags', this)">🚩 Red Flags</button>
+    <button class="nav-tab" onclick="showPage('cheatsheet', this)">🎯 Cheat Sheet</button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ═══════════════ GLOSSARY ═══════════════ -->
+  <div class="page active" id="page-glossary">
+    <p class="page-title">The <em>AI Dictionary</em></p>
+    <p class="page-subtitle">Every term that comes up in stand-ups, PRDs, and engineering conversations — explained for someone who thinks in experiences, not code.</p>
+
+    <div class="glossary-search-wrap">
+      <input class="glossary-search" id="glossarySearch" type="text" placeholder="Search terms… e.g. hallucination, RAG, token" oninput="searchGlossary(this.value)">
+    </div>
+    <div class="search-count" id="searchCount"></div>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterTerms('all', this)">All terms</button>
+      <button class="filter-btn" onclick="filterTerms('model', this)">🧠 Model basics</button>
+      <button class="filter-btn" onclick="filterTerms('agent', this)">🤖 Agents</button>
+      <button class="filter-btn" onclick="filterTerms('pm', this)">📋 PM strategy</button>
+      <button class="filter-btn" onclick="filterTerms('infra', this)">⚙️ Infra & API</button>
+    </div>
+
+    <div class="section-label" data-section="model">Model Fundamentals</div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">LLM — Large Language Model</div><div class="term-teaser">The engine behind Claude, ChatGPT, Gemini...</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">📚 Analogy: The world's most-read book nerd</span>
+        <p>An LLM is a massive neural network trained on enormous amounts of text. It learned patterns in language so well it can generate coherent, contextually relevant text — code, prose, analysis — just by predicting what comes next. It doesn't "understand" like a human — it statistically predicts.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Because LLMs predict rather than reason perfectly, your UI needs to handle wrong answers gracefully. Design for uncertainty: show confidence indicators, allow easy correction, don't present AI output as ground truth.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>When writing a PRD, specify which model tier you're targeting — it affects cost, latency, and capability. A GPT-4-class model can cost 10–50x more per call than a smaller model.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Context Window</div><div class="term-teaser">How much the AI can "see" at once</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🗒️ Analogy: Working memory / short-term RAM</span>
+        <p>The context window is the total amount of text the model can process in one go — both your input and its output, measured in tokens. Once content falls outside the window, the model can't see it. Old models had ~4K tokens (~3 pages); modern ones handle 128K–1M+ tokens.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>This is why chat apps sometimes "forget" earlier parts of a conversation. Design for this: offer summarization features, create visual affordances when context is getting full.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Context window size is a key spec. Long-context tasks need bigger windows but cost more. Factor this into your cost model per interaction.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Token</div><div class="term-teaser">The currency of AI — how text is measured and billed</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🪙 Analogy: Syllables, roughly</span>
+        <p>Models don't process words — they process tokens. A token is roughly 3/4 of a word. "Unbelievable" might be 3 tokens. Everything you send to and receive from an AI is counted in tokens. Most APIs charge per token.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Shorter prompts are cheaper and faster. Help users understand verbosity has a cost. Character limits on inputs can meaningfully reduce costs at scale.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Your unit economics depend on tokens. A 2,000-token system prompt is a fixed cost floor per interaction. Track avg input/output tokens as a core metric.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Prompt / System Prompt</div><div class="term-teaser">The instructions that shape AI behavior</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">📝 Analogy: A creative brief for the AI</span>
+        <p>A <strong>prompt</strong> is the input you send. A <strong>system prompt</strong> is hidden backstage instructions set by developers — it defines the AI's role, tone, constraints, and persona before users ever interact with it.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>You can absolutely write system prompts — it's UX writing for AI. Tone, persona, response format, what the AI should refuse — these are design decisions you should own.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Treat prompts like product copy — they need review cycles and versioning. Include prompt requirements in your PRDs and define who owns prompt iteration.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Hallucination</div><div class="term-teaser">When AI confidently makes things up</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">😬 Analogy: The intern who bluffs</span>
+        <p>LLMs sometimes generate plausible-sounding but completely fabricated information. The model doesn't "know" it's wrong — it's just producing statistically likely text. Fake citations, wrong dates, invented features are all common forms.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Design verification flows for high-stakes output. Use visual patterns (warnings, citation markers) to signal "AI-generated — please verify." Never auto-publish unverified AI output.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Hallucination risk should be in your risk assessment section of any AI PRD. Define acceptable error rates and mitigation strategies (RAG, human review).</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="model" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Temperature</div><div class="term-teaser">Controls how creative vs. predictable the AI is</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-model">Model</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🌡️ Analogy: A creativity dial from 0–2</span>
+        <p>Low temperature (0.1) = focused, deterministic. High temperature (1.5) = creative, unpredictable. For code or data extraction, use low temp. For creative brainstorming, use higher.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>If you're designing a feature needing consistent output (legal summaries), tell your dev to lower temperature. Creative brainstorm tools? Crank it up. This is a UX decision you should be making.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Include temperature as a product spec. Running A/B tests comparing outputs at different temperatures is a legit PM experiment during early feature development.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label" data-section="agent">Agents & AI Systems</div>
+
+    <div class="term-card" data-category="agent" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">AI Agent</div><div class="term-teaser">An AI that takes actions, not just answers questions</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-agent">Agent</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🤖 Analogy: A virtual employee with a to-do list</span>
+        <p>An agent doesn't just respond — it acts. It can browse the web, write and run code, send emails, book meetings. It loops: perceive → plan → act → observe results → repeat until done. You give a goal, not a single question.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Agent UX needs visibility (what is it doing?), control (can I pause it?), and explainability (why did it do that?). This is a massive, underdeveloped design space to own.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>A wrong action is worse than a wrong answer. Define what the agent can do autonomously vs. what needs human approval. Document "human-in-the-loop" checkpoints explicitly.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="agent" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">RAG — Retrieval Augmented Generation</div><div class="term-teaser">How AI knows about YOUR data</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-agent">Agent</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">📎 Analogy: Open-book exam vs. memorization</span>
+        <p>RAG searches a knowledge base for relevant info, then feeds that into the prompt. So the AI answers based on YOUR documents, not just training data. A support bot using RAG searches your help articles before answering.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>RAG systems need source attribution UX. Design "cited from: [doc]" patterns. Think about what happens when no relevant document is found — design graceful fallbacks.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>RAG quality depends on your knowledge base. Treat it as a product artifact with an owner, update cadence, and quality metrics. Garbage in, garbage out.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="agent" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Guardrails / Safety Filters</div><div class="term-teaser">Rules that prevent the AI from going off the rails</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-agent">Agent</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🚧 Analogy: Content policy + compliance officer built in</span>
+        <p>Guardrails constrain what the AI does — topics it won't touch, actions it won't take, formats it must follow. Some are built into the model; others are custom layers engineers add.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>When AI hits a guardrail and refuses, design the error carefully — it shouldn't feel like a wall, it should redirect helpfully. AI refusal message design is high-leverage, underrated UX.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Work with legal to define content restrictions before launch. Build a failure taxonomy — every way the AI could fail or misbehave, and which require guardrails.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label" data-section="infra">Infrastructure & APIs</div>
+
+    <div class="term-card" data-category="infra" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">API — Application Programming Interface</div><div class="term-teaser">How your product talks to an AI model</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-infra">Infra</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🍽️ Analogy: A restaurant order window</span>
+        <p>An API is how two software systems communicate. Your product sends a user's question via API, the AI sends back a response. Engineers write code handling this exchange. Every call has a cost and a latency.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Every AI interaction has a delay. Design loading states for ALL AI calls. Streaming (the AI types as it responds) is one pattern to reduce perceived latency — request it as a design requirement.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Know your per-call cost, projected call volume, and monthly AI infrastructure cost. Put this in your business case with clear cost/user estimates.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="infra" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Fine-tuning vs. Prompting</div><div class="term-teaser">Training a custom model vs. better instructions</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-infra">Infra</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🏋️ Analogy: Training someone from scratch vs. briefing an expert</span>
+        <p><strong>Prompting</strong>: Write clever instructions to get better behavior. Fast, cheap, flexible — start here always. <strong>Fine-tuning</strong>: Actually retrain the model on custom data. Expensive, weeks of work, but achieves things prompting can't.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>If a feature feels "off" in tone, the fix might be in the prompt — which you can help write. You don't need engineering access to start improving AI quality. That's your leverage.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Most quality problems are prompt-fixable. Exhaust better prompts before escalating to fine-tuning, which is a weeks-long, costly investment requiring thousands of quality training examples.</p></div>
+      </div>
+    </div>
+
+    <div class="section-label" data-section="pm">PM Frameworks for AI</div>
+
+    <div class="term-card" data-category="pm" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Evals (Evaluations)</div><div class="term-teaser">How you measure if your AI is actually working</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-pm">PM</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">🧪 Analogy: QA testing, but for intelligence</span>
+        <p>Evals are test suites measuring AI output quality. You create test inputs and expected outputs, run your system against them, and grade results. This is how engineers know if a prompt change improved or degraded performance.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>You can contribute to evals. Writing test cases from a user perspective — "this is what good looks like for this user need" — is valuable input engineers often lack. Bring UX heuristics to eval design.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>Before launching any AI feature, define what "good" looks like and set a quality threshold. Require evals to be built before launch. Make evals part of your Definition of Done.</p></div>
+      </div>
+    </div>
+
+    <div class="term-card" data-category="pm" onclick="toggleCard(this)">
+      <div class="term-header"><div><div class="term-name">Human-in-the-Loop (HITL)</div><div class="term-teaser">Where humans check AI work before it goes live</div></div><div style="display:flex;gap:0.5rem;align-items:center"><span class="term-tag tag-pm">PM</span><span class="toggle-icon">+</span></div></div>
+      <div class="term-body">
+        <span class="analogy-badge">✋ Analogy: An editor reviews before publish</span>
+        <p>HITL is a design pattern where a human reviews AI output before it takes effect. The spectrum runs from fully autonomous to "AI drafts, human approves everything." Most responsible AI products sit in the middle.</p>
+        <div class="designer-take"><div class="label">🎨 Design implication</div><p>Designing review UIs for AI output is one of the most important underexplored design spaces. Diff views, confidence indicators, bulk approval — these are all design patterns worth mastering now.</p></div>
+        <div class="pm-angle"><div class="label">📋 PM angle</div><p>In your PRD, define your HITL model explicitly. Higher-stakes tasks need more oversight. Quantify human time cost of your review flow — this is part of your operational model.</p></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ PRINCIPLES ═══════════════ -->
+  <div class="page" id="page-prompting">
+    <p class="page-title">The <em>Prompt Guide</em></p>
+    <p class="page-subtitle">Everything you need to write effective prompts — from the core principles to the exact anatomy of a great prompt, with a real built example.</p>
+
+    <div class="guide-section-label">The 6 Principles</div>
+
+    <div class="guide-grid">
+      <div class="principle-card">
+        <div class="principle-num">01</div>
+        <div class="principle-title">Give the AI a Role</div>
+        <div class="principle-body">AI performs dramatically better with a persona. "You are a..." primes the model with the right knowledge domain, tone, and behavior patterns.</div>
+        <div class="example-block"><div class="ex-label bad">✗ Vague</div><div class="ex-text">Summarize this document.</div></div>
+        <div class="example-block"><div class="ex-label good">✓ With role</div><div class="ex-text">You are a senior UX researcher. Summarize this usability report, highlighting the top 3 friction points for a non-technical executive.</div></div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">02</div>
+        <div class="principle-title">Specify the Output Format</div>
+        <div class="principle-body">Don't leave format to chance. Tell the AI exactly how you want the answer — bullets, table, numbered list, under X words.</div>
+        <div class="example-block"><div class="ex-label bad">✗ No format</div><div class="ex-text">Give me ideas for onboarding improvements.</div></div>
+        <div class="example-block"><div class="ex-label good">✓ Formatted</div><div class="ex-text">Give me 5 onboarding improvement ideas. Format: bullet list. Each: one idea + one rationale. Max 25 words per bullet.</div></div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">03</div>
+        <div class="principle-title">Add Context, Not Assumptions</div>
+        <div class="principle-body">The AI knows nothing about your specific situation unless you tell it. Background on your product, user, and constraints makes every output more relevant.</div>
+        <div class="example-block"><div class="ex-label bad">✗ No context</div><div class="ex-text">Write a push notification for our app.</div></div>
+        <div class="example-block"><div class="ex-label good">✓ With context</div><div class="ex-text">Our app is for auto dealership service advisors. Users miss follow-ups. Write a push for day 3. Max 60 chars. Encouraging, not guilt-inducing.</div></div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">04</div>
+        <div class="principle-title">Use Positive Instructions</div>
+        <div class="principle-body">Tell the AI what TO do, not just what to avoid. Negative-only instructions leave too much room for interpretation.</div>
+        <div class="example-block"><div class="ex-label bad">✗ Only negatives</div><div class="ex-text">Don't be too formal. Don't use jargon. Don't write too much.</div></div>
+        <div class="example-block"><div class="ex-label good">✓ Positive framing</div><div class="ex-text">Use a warm, conversational tone. Write at a 7th grade reading level. Keep the response to 3 sentences maximum.</div></div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">05</div>
+        <div class="principle-title">Show, Don't Just Tell</div>
+        <div class="principle-body">One concrete example is worth 10 abstract instructions. Include a sample of what good looks like — the AI will pattern-match to it.</div>
+        <div class="example-block"><div class="ex-label bad">✗ Abstract</div><div class="ex-text">Write error messages that feel human.</div></div>
+        <div class="example-block"><div class="ex-label good">✓ With example</div><div class="ex-text">Write error messages like this: "Hmm, that didn't save. Try again?" — not like: "Error 403: Unauthorized request."</div></div>
+      </div>
+
+      <div class="principle-card">
+        <div class="principle-num">06</div>
+        <div class="principle-title">Ask for Reasoning First</div>
+        <div class="principle-body">For complex tasks, tell the AI to think step-by-step before answering. This "chain of thought" dramatically improves accuracy on hard analytical questions.</div>
+        <div class="example-block"><div class="ex-label bad">✗ Jump to answer</div><div class="ex-text">Which feature should we build next?</div></div>
+        <div class="example-block"><div class="ex-label good">✓ Reason first</div><div class="ex-text">Think through effort, user impact, and strategic fit for each option — then give me your top recommendation with a 2-sentence rationale.</div></div>
+      </div>
+    </div>
+
+    <div class="guide-section-label">The 6 Building Blocks</div>
+
+    <div class="blocks-grid">
+      <div class="block-card">
+        <span class="block-chip bracket-role">🧑 Role</span>
+        <div class="block-text"><strong>Who is the AI?</strong>Set a persona, expertise level, and perspective. Defines tone, knowledge domain, and decision-making lens.</div>
+      </div>
+      <div class="block-card">
+        <span class="block-chip bracket-context">📎 Context</span>
+        <div class="block-text"><strong>What's the situation?</strong>Background the AI needs — your product, user, the problem, and any relevant data or constraints.</div>
+      </div>
+      <div class="block-card">
+        <span class="block-chip bracket-task">✅ Task</span>
+        <div class="block-text"><strong>What should it do?</strong>One clear verb: write, analyze, compare, summarize, rewrite. One task per prompt is more reliable than bundled requests.</div>
+      </div>
+      <div class="block-card">
+        <span class="block-chip bracket-format">📐 Format</span>
+        <div class="block-text"><strong>How should output look?</strong>Bullet list, table, JSON, paragraph, under 100 words. Explicit format prevents unpredictable structure.</div>
+      </div>
+      <div class="block-card">
+        <span class="block-chip bracket-constraint">🚧 Constraints</span>
+        <div class="block-text"><strong>What are the rules?</strong>Tone, things to avoid, reading level, brand voice, character limits. Use positive framing where possible.</div>
+      </div>
+      <div class="block-card">
+        <span class="block-chip bracket-example">💡 Example</span>
+        <div class="block-text"><strong>Show what good looks like.</strong>A sample input/output or "like this, not like that" contrast. The single highest-leverage thing you can add.</div>
+      </div>
+    </div>
+
+    <div class="guide-section-label">A Fully Built Prompt</div>
+
+    <div class="anatomy-wrapper">
+      <div class="anatomy-sub" style="margin-bottom:1rem;">All 6 blocks assembled for a real myKaarma UX writing task.</div>
+      <div class="prompt-block"><span style="color:var(--accent4);font-weight:500;">[ROLE]</span> You are a senior UX writer with expertise in automotive service lane software and behavior change design.
+
+<span style="color:var(--accent2);font-weight:500;">[CONTEXT]</span> We're designing myKaarma's mobile check-in flow for vehicle owners at dealerships. Target user: busy car owner, 30–55. Our "Add vehicle notes" step has a 22% completion rate — users skip it and we lose service context.
+
+<span style="color:var(--accent);font-weight:500;">[TASK]</span> Write 3 alternative versions of the copy for the "Add vehicle notes" step.
+
+<span style="color:#8a6900;font-weight:500;">[FORMAT]</span> For each version: headline (max 8 words), subtext (max 20 words), placeholder text (max 10 words), CTA button (max 4 words). Labeled list.
+
+<span style="color:var(--muted);font-weight:500;">[CONSTRAINT]</span> Tone: helpful and low-effort, not demanding. Avoid "required" or "must." Each version tries a different angle: time-saving, service quality, peace of mind.
+
+<span style="color:#6d28d9;font-weight:500;">[EXAMPLE]</span> Current copy to improve: "Vehicle Notes — Tell us about your car. [Add notes] [Skip]"</div>
+    </div>
+
+    <div class="guide-section-label">The Iteration Loop</div>
+
+    <div style="display:flex;gap:0;overflow:hidden;border-radius:2px;border:1px solid rgba(26,18,8,0.1);margin-bottom:2rem;">
+      <div style="flex:1;padding:1rem;background:var(--card);border-right:1px solid rgba(26,18,8,0.08);">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.4rem;">Step 1</div>
+        <div style="font-size:0.82rem;font-weight:500;margin-bottom:0.3rem;">Write & Run</div>
+        <div style="font-size:0.8rem;color:var(--muted);font-weight:300;">Start with Role + Task + Format. Run it. Don't overthink the first draft.</div>
+      </div>
+      <div style="flex:1;padding:1rem;background:var(--card);border-right:1px solid rgba(26,18,8,0.08);">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:var(--accent2);text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.4rem;">Step 2</div>
+        <div style="font-size:0.82rem;font-weight:500;margin-bottom:0.3rem;">Diagnose</div>
+        <div style="font-size:0.8rem;color:var(--muted);font-weight:300;">Wrong tone? Missing context? Too long? Identify the one thing that's off.</div>
+      </div>
+      <div style="flex:1;padding:1rem;background:var(--card);border-right:1px solid rgba(26,18,8,0.08);">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:#8a6900;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.4rem;">Step 3</div>
+        <div style="font-size:0.82rem;font-weight:500;margin-bottom:0.3rem;">Add a Block</div>
+        <div style="font-size:0.8rem;color:var(--muted);font-weight:300;">Wrong tone → add constraints. Wrong output → add format or example.</div>
+      </div>
+      <div style="flex:1;padding:1rem;background:var(--card);">
+        <div style="font-family:'DM Mono',monospace;font-size:0.62rem;color:#6d28d9;text-transform:uppercase;letter-spacing:0.12em;margin-bottom:0.4rem;">Step 4</div>
+        <div style="font-size:0.82rem;font-weight:500;margin-bottom:0.3rem;">Save & Share</div>
+        <div style="font-size:0.8rem;color:var(--muted);font-weight:300;">Good prompts are team assets. Save them to Templates so the whole team benefits.</div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ═══════════════ TEMPLATES ═══════════════ -->
+  <div class="page" id="page-templates">
+    <p class="page-title">Ready-to-Use <em>Prompt Templates</em></p>
+    <p class="page-subtitle">Copy, fill in the brackets, and run. Each template is built on the 6-block anatomy and tested for common designer + PM tasks.</p>
+
+    <div class="template-tabs">
+      <button class="tmpl-tab active" onclick="showTemplate('ux', this)">🎨 UX & Design</button>
+      <button class="tmpl-tab" onclick="showTemplate('pm', this)">📋 PM & Strategy</button>
+      <button class="tmpl-tab" onclick="showTemplate('research', this)">🔍 Research</button>
+      <button class="tmpl-tab" onclick="showTemplate('content', this)">✍️ Content & Copy</button>
+      <button class="tmpl-tab" onclick="showTemplate('dev', this)">🛠️ Dev Communication</button>
+      <button class="tmpl-tab" onclick="showTemplate('other', this)">📦 Other</button>
+      <button class="tmpl-tab" onclick="showTemplate('add', this)" style="color: var(--accent2);">➕ Add Template</button>
+      <button class="tmpl-tab" onclick="showTemplate('changelog', this)" id="changelog-tab">📋 Changelog</button>
+    </div>
+
+    <!-- UX -->
+    <div class="template-panel active" id="tmpl-ux">
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">UX Critique Request</div><div class="template-use">Get structured feedback on your designs from an AI critic</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'ux1')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('ux1', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="ux1">You are a senior UX designer with 10+ years of experience in <span class="fill-in">[industry: e.g., fintech / healthcare / e-commerce]</span>.
+
+I'm sharing a description of a screen/flow for <span class="fill-in">[product name]</span>. The target user is <span class="fill-in">[user description]</span> and their primary goal on this screen is <span class="fill-in">[user goal]</span>.
+
+Here's the screen description: <span class="fill-in">[describe your design or paste your copy/structure]</span>
+
+Please evaluate it across these 4 dimensions:
+1. Clarity — Is the user's next action obvious?
+2. Trust — Does anything feel risky or confusing?
+3. Friction — What's the biggest drop-off risk?
+4. Delight — What's one thing that could surprise and delight?
+
+Format: One paragraph per dimension. Be direct and specific.</div>
+          <div class="prompt-tips">
+            <div class="tip-item">Replace all <span style="color:var(--accent4)">[brackets]</span> with your specifics before running</div>
+            <div class="tip-item">The more specific your screen description, the more actionable the feedback</div>
+            <div class="tip-item">Try running this for each major screen in your flow</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Error Message Generator</div><div class="template-use">Write human, on-brand error states fast</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'ux2')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('ux2', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="ux2">You are a UX writer for <span class="fill-in">[product name]</span>. Our brand voice is <span class="fill-in">[e.g., warm and human / professional but approachable / playful and witty]</span>. Our users are <span class="fill-in">[user description]</span>.
+
+Write 3 versions of an error message for this scenario: <span class="fill-in">[describe the error, e.g., "user's payment failed" / "file upload too large" / "session timed out"]</span>
+
+For each version:
+— Headline: max 6 words
+— Body: max 20 words, explain what happened + what to do
+— CTA: max 4 words
+
+Tone versions: (1) Empathetic, (2) Minimal/direct, (3) Slightly playful
+Never use: technical error codes, passive voice, or the word "invalid"</div>
+          <div class="prompt-tips">
+            <div class="tip-item">Add a "never use" list of words your brand avoids for even tighter output</div>
+            <div class="tip-item">Paste in an example of existing copy you like to anchor the tone</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Flow Gap Finder</div><div class="template-use">Identify missing states and edge cases in your flows</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'ux3')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('ux3', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="ux3">You are a QA-minded UX designer. I'm going to describe a user flow and I want you to identify every state, edge case, and error condition I might have missed.
+
+Product: <span class="fill-in">[product name + one-line description]</span>
+User goal: <span class="fill-in">[what the user is trying to accomplish]</span>
+Flow I've designed: <span class="fill-in">[describe step by step: step 1 → step 2 → step 3...]</span>
+
+Please list:
+1. Empty states I might have missed
+2. Error states I haven't accounted for
+3. Edge cases (unusual inputs, slow connections, permissions issues)
+4. States for different user types (first-time vs. returning, mobile vs. desktop)
+
+Format: Numbered list under each category. Be specific — call out the exact step in my flow where each gap occurs.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PM -->
+    <div class="template-panel" id="tmpl-pm">
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Feature Brief / One-Pager</div><div class="template-use">Draft a concise feature proposal for stakeholder alignment</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'pm1')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('pm1', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="pm1">You are a senior product manager writing a feature brief for stakeholder alignment.
+
+Feature idea: <span class="fill-in">[describe the feature in 1–2 sentences]</span>
+Product context: <span class="fill-in">[product name, target users, stage: early-stage / growth / mature]</span>
+Problem it solves: <span class="fill-in">[what user pain or business problem does this address?]</span>
+Known constraints: <span class="fill-in">[timeline, technical, resource, or market constraints]</span>
+
+Write a one-page feature brief with these sections:
+1. Problem Statement (2 sentences)
+2. Proposed Solution (3 sentences)
+3. Success Metrics (3 measurable KPIs)
+4. Risks & Open Questions (bullet list, max 4 items)
+5. Recommended Next Step (1 sentence action item)
+
+Tone: Confident but not overselling. Data-driven language where possible. Executive-readable.</div>
+          <div class="prompt-tips">
+            <div class="tip-item">Add "Key stakeholders: [names/roles]" to tailor the language to your audience</div>
+            <div class="tip-item">Paste in user research quotes as context to make the problem statement more compelling</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Prioritization Framework</div><div class="template-use">Get AI help scoring and ranking your backlog</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'pm2')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('pm2', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="pm2">You are a product strategist. I need help prioritizing my feature backlog.
+
+My product's current top priority is: <span class="fill-in">[e.g., reduce churn / grow activation / increase revenue]</span>
+My team's capacity this quarter: <span class="fill-in">[e.g., 2 engineers, 6 weeks]</span>
+
+Here are my backlog items:
+<span class="fill-in">[List each item: Feature name — one-sentence description]</span>
+
+Score each item on these dimensions (1–5):
+— User Impact: How much does this improve the core user experience?
+— Strategic Fit: How directly does this serve our #1 priority?
+— Effort: Inverse score — 5 = very low effort, 1 = very high effort
+— Confidence: How certain are we that users want this?
+
+Present as a table with a final Priority Score (average). Then give a 2-sentence recommendation on where to start.</div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Stakeholder Objection Prep</div><div class="template-use">Anticipate and prepare for pushback before your presentation</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'pm3')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('pm3', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="pm3">You are a skeptical but fair senior stakeholder — part engineer, part business leader. I'm about to present this proposal:
+
+<span class="fill-in">[Summarize your proposal in 3–5 sentences]</span>
+
+Stakeholders in the room: <span class="fill-in">[e.g., CTO, Head of Sales, CFO]</span>
+
+Play devil's advocate. Give me the 5 hardest objections each stakeholder type would likely raise. For each objection, include:
+— The question they'd actually ask (as a direct quote)
+— What concern is underneath it
+— A suggested response I could give (2–3 sentences, evidence-based)
+
+Be genuinely tough — I want to be prepared, not just validated.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESEARCH -->
+    <div class="template-panel" id="tmpl-research">
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Interview Question Generator</div><div class="template-use">Build a user interview guide for any research goal</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'r1')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('r1', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="r1">You are a senior UX researcher specializing in generative user research.
+
+Research goal: I want to understand <span class="fill-in">[what you want to learn — e.g., why users abandon checkout / how teams currently manage X / what makes users trust Y]</span>
+
+Target participant: <span class="fill-in">[describe who you're interviewing: role, context, experience level]</span>
+
+Write a 45-minute interview guide with:
+— 2 warm-up questions (build rapport, not data)
+— 4 core exploration questions (open-ended, no leading, behavior-focused)
+— 2 follow-up probes for each core question
+— 1 closing question
+
+Rules: No "would you" questions. No hypotheticals. Ask about past behavior, not future intentions. Use "tell me about a time when..." framing.</div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Research Synthesis Assistant</div><div class="template-use">Turn raw notes into themes and insights</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'r2')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('r2', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="r2">You are a UX researcher performing affinity analysis. I will give you raw notes from <span class="fill-in">[number]</span> user interviews about <span class="fill-in">[topic]</span>.
+
+Raw notes:
+<span class="fill-in">[Paste your interview notes here — can be messy, direct quotes, bullet points, etc.]</span>
+
+Please:
+1. Identify the top 4–6 themes (patterns that appear across multiple participants)
+2. For each theme: give it a name, write a 2-sentence summary, and list 2–3 supporting quotes
+3. Flag any surprising or contradictory findings
+4. Suggest 2 "how might we" statements that could become design prompts
+
+Format: Structured markdown. Bold theme names. Keep quotes verbatim.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="template-panel" id="tmpl-content">
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">System Prompt Writer</div><div class="template-use">Write a production-ready system prompt for an AI feature</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'c1')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('c1', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="c1">You are a prompt engineer helping me write a system prompt for an AI-powered product feature.
+
+Feature: <span class="fill-in">[describe the AI feature — what it does, where it lives in the product]</span>
+User: <span class="fill-in">[who will interact with this feature, their context and goals]</span>
+Desired behavior: <span class="fill-in">[what should the AI do well?]</span>
+Off-limits: <span class="fill-in">[topics, actions, or output types the AI must never do]</span>
+Tone: <span class="fill-in">[brand voice — e.g., professional, warm, concise, encouraging]</span>
+
+Write a system prompt that:
+— Establishes a clear AI persona and role
+— Defines behavioral boundaries clearly
+— Specifies output format expectations
+— Handles ambiguous or off-topic requests gracefully
+— Is under 300 words
+
+After the system prompt, write a 3-question test suite I can use to verify it works as intended.</div>
+          <div class="prompt-tips">
+            <div class="tip-item">The test suite at the end is crucial — always validate your system prompt before shipping</div>
+            <div class="tip-item">Iterate: run the system prompt, then come back and refine based on what the AI does wrong</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Microcopy Batch Generator</div><div class="template-use">Write all UI copy for a feature in one shot</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'c2')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('c2', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="c2">You are a UX writer. Write all microcopy for the following feature.
+
+Feature: <span class="fill-in">[feature name and 1-sentence description]</span>
+Brand voice: <span class="fill-in">[e.g., friendly and direct / professional and clear / warm and encouraging]</span>
+Users: <span class="fill-in">[who they are]</span>
+
+Write copy for each of these UI elements:
+— Page title
+— Page subtitle / descriptor (max 15 words)
+— Primary CTA button
+— Secondary CTA / cancel link
+— Empty state heading + body (max 20 words)
+— Success message (max 12 words)
+— Loading state label (max 5 words)
+— Tooltip for the main action (max 15 words)
+— Confirmation modal: title + body + CTA
+
+Rules: No passive voice. No jargon. Use "you" not "the user". Keep all copy in the same voice.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEV COMMS -->
+    <div class="template-panel" id="tmpl-dev">
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">Design → Dev Handoff Notes</div><div class="template-use">Turn your design decisions into engineering-ready specs</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'd1')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('d1', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="d1">You are a technical product designer writing engineering handoff notes. Translate my design decisions into developer-friendly language.
+
+Feature: <span class="fill-in">[feature name]</span>
+Design decisions I made: <span class="fill-in">[describe your design in plain language — layout, interactions, states, behaviors]</span>
+Tech stack (if known): <span class="fill-in">[e.g., React, iOS native, web — or "unknown"]</span>
+
+Write handoff notes that include:
+1. Component inventory (list every distinct UI component)
+2. Interaction spec (describe each user action and the expected system response)
+3. States to build (list every state: empty, loading, error, success, disabled, etc.)
+4. Edge cases to handle (inputs that could break the UI)
+5. Open questions for the engineer (anything I haven't specified)
+
+Use technical but clear language. Avoid design jargon. Be precise about what is and isn't defined.</div>
+          <div class="prompt-tips">
+            <div class="tip-item">This output becomes your Figma annotation content or Jira ticket description</div>
+            <div class="tip-item">Share the "open questions" section in your handoff meeting to unblock engineers faster</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="template-card">
+        <div class="template-header">
+          <div><div class="template-name">AI Feature Spec for Engineers</div><div class="template-use">Specify an AI-powered feature in language devs understand</div></div>
+          <div style="display:flex;gap:0.4rem;">
+            <button class="copy-btn" onclick="copyTemplate(this, 'd2')">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('d2', false)">Edit</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block" id="d2">You are a PM/designer writing an AI feature spec for an engineering team.
+
+Feature: <span class="fill-in">[name and description]</span>
+What the AI should do: <span class="fill-in">[describe the AI's job in this feature]</span>
+Input: <span class="fill-in">[what data/text goes into the AI?]</span>
+Expected output: <span class="fill-in">[what should the AI return?]</span>
+
+Write a technical spec that covers:
+1. API integration requirements (input schema, output format, error handling)
+2. Latency expectations and loading state requirements
+3. Streaming vs. non-streaming recommendation + rationale
+4. Fallback behavior when the AI call fails
+5. Guardrails needed (what the AI must never return)
+6. Suggested evaluation criteria (how will we know it's working?)
+7. Logging requirements (what do we need to track?)
+
+Be specific. Flag anything that needs an engineering decision.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- OTHER -->
+    <div class="template-panel" id="tmpl-other">
+      <div id="other-list"></div>
+      <div id="other-empty" class="empty-state">
+        <span class="empty-icon">📦</span>
+        <h3>No templates yet in Other</h3>
+        <p>Add templates here that don't fit the other categories — cross-functional prompts, personal workflows, or experimental ideas.</p>
+      </div>
+    </div>
+
+    <!-- ADD TEMPLATE -->
+    <div class="template-panel" id="tmpl-add">
+      <div class="add-template-section">
+        <div class="add-section-title">➕ Add a Template</div>
+        <div class="add-section-sub">Share a prompt that's saved you time. It'll appear in the category tab you choose, available to copy by anyone on the team.</div>
+        <div class="add-form-grid">
+          <div class="form-group">
+            <label class="form-label">Template Name <span class="req">*</span></label>
+            <input type="text" class="form-input" id="at-name" placeholder="e.g., Sprint Retro Summary">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your Name</label>
+            <input type="text" class="form-input" id="at-author" placeholder="e.g., Maria G.">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Category <span class="req">*</span></label>
+            <select class="form-select" id="at-cat">
+              <option value="ux">🎨 UX & Design</option>
+              <option value="pm">📋 PM & Strategy</option>
+              <option value="research">🔍 Research</option>
+              <option value="content">✍️ Content & Copy</option>
+              <option value="dev">🛠️ Dev Communication</option>
+              <option value="other">📦 Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">What it's for</label>
+            <input type="text" class="form-input" id="at-use" placeholder="e.g., Quickly summarize retro notes after each sprint">
+          </div>
+          <div class="form-group full">
+            <label class="form-label">Prompt Template <span class="req">*</span></label>
+            <textarea class="form-textarea" id="at-prompt" placeholder="Paste or type your prompt here. Use [brackets] for fillable fields that others will customize..."></textarea>
+          </div>
+        </div>
+        <button class="add-submit-btn" onclick="submitTemplate()">Add Template →</button>
+        <div id="at-success" style="display:none;margin-top:0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent2);letter-spacing:0.08em;">✓ Template added! Find it in the category tab.</div>
+      </div>
+    </div>
+
+    <!-- CHANGELOG -->
+    <div class="template-panel" id="tmpl-changelog">
+      <div class="cl-header">
+        <div>
+          <div class="cl-title">Template Changelog</div>
+          <div class="cl-sub">Every edit made to any template — who changed it, what changed, and the ability to restore any previous version.</div>
+        </div>
+        <button class="cl-clear-btn" onclick="clearChangelog()">Clear history</button>
+      </div>
+      <div id="cl-empty" class="empty-state" style="margin-top:1rem;">
+        <span class="empty-icon">📋</span>
+        <h3>No changes yet</h3>
+        <p>When you or a teammate edits a template, every version will be tracked here so nothing is ever lost.</p>
+      </div>
+      <div id="cl-list"></div>
+    </div>
+
+  </div>
+
+<!-- ─── EDIT MODAL ─── -->
+<div class="modal-overlay" id="editModal" onclick="closeEditModalOutside(event)">
+  <div class="modal-box" style="max-width:600px;">
+    <button class="modal-close" onclick="closeEditModal()">✕</button>
+    <div class="modal-title" id="edit-modal-title">✏️ Edit Template</div>
+    <div class="modal-sub">Your changes are versioned — the original is always preserved in the Changelog.</div>
+
+    <div style="display:flex;flex-direction:column;gap:0.75rem;">
+      <div class="form-group">
+        <label class="form-label">Template Name</label>
+        <input type="text" class="form-input" id="edit-name" placeholder="Template name">
+      </div>
+      <div class="form-group">
+        <label class="form-label">What it's for</label>
+        <input type="text" class="form-input" id="edit-use" placeholder="One-line description of what this template does">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Prompt Content <span class="req">*</span></label>
+        <textarea class="form-textarea" id="edit-prompt" style="min-height:220px;font-size:0.78rem;line-height:1.65;"></textarea>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Name <span style="color:var(--muted);font-weight:300;">(logged in changelog)</span></label>
+        <input type="text" class="form-input" id="edit-author" placeholder="e.g., Alex M.">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Reason for change <span style="color:var(--muted);font-weight:300;">(optional)</span></label>
+        <input type="text" class="form-input" id="edit-reason" placeholder="e.g., Updated tone to match new brand voice, added myKaarma context">
+      </div>
+    </div>
+
+    <!-- diff preview -->
+    <div id="edit-diff-wrap" style="display:none;margin-top:1rem;">
+      <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin-bottom:0.5rem;">What's changing</div>
+      <div id="edit-diff" style="font-family:'DM Mono',monospace;font-size:0.72rem;line-height:1.65;background:var(--paper);border:1px solid rgba(13,31,60,0.12);border-radius:2px;padding:0.9rem 1rem;max-height:160px;overflow-y:auto;white-space:pre-wrap;"></div>
+    </div>
+
+    <div class="modal-actions" style="margin-top:1rem;">
+      <button class="add-submit-btn" onclick="saveEdit()" style="flex:1;">Save Changes →</button>
+      <button class="modal-cancel" onclick="closeEditModal()">Cancel</button>
+    </div>
+    <div id="edit-success" style="display:none;margin-top:0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent2);letter-spacing:0.08em;">✓ Saved and logged to Changelog.</div>
+  </div>
+</div>
+
+<!-- ─── RESTORE MODAL ─── -->
+<div class="modal-overlay" id="restoreModal" onclick="closeRestoreModalOutside(event)">
+  <div class="modal-box" style="max-width:580px;">
+    <button class="modal-close" onclick="closeRestoreModal()">✕</button>
+    <div class="modal-title">↩ Restore Previous Version</div>
+    <div class="modal-sub" id="restore-meta"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin:0.75rem 0 0.4rem;">Content to restore</div>
+    <div id="restore-preview" style="font-family:'DM Mono',monospace;font-size:0.75rem;line-height:1.65;background:var(--paper);border:1px solid rgba(13,31,60,0.12);border-radius:2px;padding:0.9rem 1rem;max-height:200px;overflow-y:auto;white-space:pre-wrap;"></div>
+    <div style="font-family:'DM Mono',monospace;font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);margin:0.75rem 0 0.4rem;">Your name <span style="font-weight:300;color:var(--muted);">(logged in changelog)</span></div>
+    <input type="text" class="form-input" id="restore-author" placeholder="e.g., Alex M." style="margin-bottom:0;">
+    <div class="modal-actions">
+      <button class="add-submit-btn" onclick="confirmRestore()" style="flex:1;background:var(--accent4);">↩ Restore This Version</button>
+      <button class="modal-cancel" onclick="closeRestoreModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+  <div class="page" id="page-workshop">
+    <p class="page-title">Prompt <em>Workshop</em></p>
+    <p class="page-subtitle">Three tools in one. Build a prompt from scratch, transform a weak one, or get AI feedback on something you've already written.</p>
+
+    <div class="ws-context-bar">
+      <span class="ws-ctx-label">Context:</span>
+      <input class="ws-ctx-input" id="ws-context" type="text" placeholder="Optional — describe what you're working on (e.g. myKaarma check-in flow, service advisor audience)">
+    </div>
+
+    <div class="workshop-tabs">
+      <button class="ws-tab active" onclick="switchWsTab('build', this)">⚙️ Build</button>
+      <button class="ws-tab" onclick="switchWsTab('transform', this)">✨ Transform</button>
+      <button class="ws-tab" onclick="switchWsTab('critique', this)">🔍 Critique</button>
+    </div>
+
+    <!-- BUILD PANEL -->
+    <div class="ws-panel active" id="ws-build">
+      <div class="builder-wrapper">
+        <div class="builder-form">
+          <div class="builder-title">Build from blocks</div>
+          <div class="field-group">
+            <label class="field-label"><span>Role</span> — Who is the AI?</label>
+            <input type="text" id="b-role" placeholder="e.g., senior UX writer with expertise in automotive SaaS" oninput="buildPrompt()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><span>Context</span> — What's the situation?</label>
+            <textarea id="b-context" placeholder="e.g., We're redesigning myKaarma's mobile check-in flow. Current completion rate is 28%..." oninput="buildPrompt()"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><span>Task</span> — What should it do?</label>
+            <input type="text" id="b-task" placeholder="e.g., Write 3 versions of the welcome screen headline" oninput="buildPrompt()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><span>Format</span> — How should output look?</label>
+            <input type="text" id="b-format" placeholder="e.g., Numbered list. Headline + subtext + CTA for each version." oninput="buildPrompt()">
+          </div>
+          <div class="field-group">
+            <label class="field-label"><span>Constraints</span> — Rules to follow</label>
+            <textarea id="b-constraints" rows="2" placeholder="e.g., Warm tone. Max 150 words each. No jargon. Use 'you' not 'the user'." oninput="buildPrompt()"></textarea>
+          </div>
+          <div class="field-group">
+            <label class="field-label"><span>Example</span> — Show what good looks like (optional)</label>
+            <textarea id="b-example" rows="2" placeholder="e.g., Current copy to improve: 'Welcome — Get started today. [Begin]'" oninput="buildPrompt()"></textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;">
+            <button class="save-as-tmpl-btn" onclick="openSaveModal()">＋ Save as Template</button>
+          </div>
+        </div>
+
+        <div class="builder-output">
+          <div class="output-title">
+            <span>Your Prompt</span>
+            <button class="copy-output-btn" id="copyOutputBtn" onclick="copyOutput()">Copy</button>
+          </div>
+          <div id="builtPrompt"><span class="placeholder-text">Your prompt assembles here as you fill in the fields...</span></div>
+          <div class="legend" id="legend" style="display:none;">
+            <span class="legend-item" style="background:rgba(125,211,184,0.15);color:#7dd3b8;">Role</span>
+            <span class="legend-item" style="background:rgba(147,197,253,0.15);color:#93c5fd;">Context</span>
+            <span class="legend-item" style="background:rgba(252,165,165,0.15);color:#fca5a5;">Task</span>
+            <span class="legend-item" style="background:rgba(253,230,138,0.15);color:#fde68a;">Format</span>
+            <span class="legend-item" style="background:rgba(216,180,254,0.15);color:#d8b4fe;">Constraints</span>
+            <span class="legend-item" style="background:rgba(134,239,172,0.15);color:#86efac;">Example</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TRANSFORM PANEL -->
+    <div class="ws-panel" id="ws-transform">
+      <div class="builder-wrapper">
+        <div class="builder-form">
+          <div class="builder-title">Paste your rough prompt</div>
+          <div class="field-group">
+            <label class="field-label">Original prompt</label>
+            <textarea id="ba-input" style="min-height:160px;" placeholder="Paste your rough or vague prompt here…
+
+e.g. Help me write something for onboarding."></textarea>
+          </div>
+          <div class="field-group" style="margin-top:0.25rem;">
+            <label class="field-label">Mode</label>
+            <div class="ba-mode-bar" style="margin-bottom:0;">
+              <button class="ba-mode-btn active" id="ba-mode-rewrite" onclick="setBAMode('rewrite', this)">Rewrite for me</button>
+              <button class="ba-mode-btn" id="ba-mode-explain" onclick="setBAMode('explain', this)">Rewrite + explain changes</button>
+            </div>
+          </div>
+          <div style="margin-top:0.75rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Try an example</div>
+            <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+              <button class="tip-chip" onclick="loadBAExample(0)">Error message</button>
+              <button class="tip-chip" onclick="loadBAExample(1)">Design feedback</button>
+              <button class="tip-chip" onclick="loadBAExample(2)">Feature brief</button>
+            </div>
+          </div>
+          <button class="build-btn" id="ba-btn" style="margin-top:1rem;" onclick="runTransformer()">Transform My Prompt →</button>
+        </div>
+
+        <div class="builder-output">
+          <div class="output-title">
+            <span>Transformed Prompt</span>
+            <button class="copy-output-btn" id="ba-copy-btn" onclick="copyBAOutput()" style="display:none;">Copy</button>
+          </div>
+          <div class="ai-output-text" id="ba-output">
+            <span class="ai-placeholder">Your rewritten prompt will appear here, structured using the 6-block anatomy.</span>
+          </div>
+          <div id="ba-loading" style="display:none;" class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span style="margin-left:0.4rem;">Rewriting…</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CRITIQUE PANEL -->
+    <div class="ws-panel" id="ws-critique">
+      <div class="builder-wrapper">
+        <div class="builder-form">
+          <div class="builder-title">Paste your prompt to critique</div>
+          <div class="field-group">
+            <label class="field-label">Prompt to critique</label>
+            <textarea class="ai-textarea" id="critique-input" style="min-height:180px;" placeholder="Paste the prompt you want feedback on…
+
+e.g. Write me 3 options for the error message when a payment fails."></textarea>
+          </div>
+          <div style="margin-top:0.75rem;">
+            <div style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.5rem;">Load an example</div>
+            <div style="display:flex;gap:0.4rem;flex-wrap:wrap;">
+              <button class="tip-chip" onclick="loadCritiqueExample(0)">Weak prompt</button>
+              <button class="tip-chip" onclick="loadCritiqueExample(1)">Medium prompt</button>
+              <button class="tip-chip" onclick="loadCritiqueExample(2)">Strong prompt</button>
+            </div>
+          </div>
+          <button class="build-btn" id="critique-btn" style="margin-top:1rem;" onclick="runCritique()">Critique My Prompt →</button>
+        </div>
+
+        <div class="builder-output">
+          <div class="output-title">
+            <span>Critique</span>
+            <span id="critique-score-badge"></span>
+          </div>
+          <div class="ai-output-text" id="critique-output">
+            <span class="ai-placeholder">Your critique will appear here — a score across the 6 blocks, the 3 highest-leverage improvements, and a coaching note.</span>
+          </div>
+          <div id="critique-loading" style="display:none;" class="ai-loading"><div class="dot-pulse"><span></span><span></span><span></span></div><span style="margin-left:0.4rem;">Analysing your prompt…</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- ═══════════════ RED FLAGS ═══════════════ -->
+  <div class="page" id="page-redflags">
+    <p class="page-title">AI Feature <em>Red Flags</em> Checklist</p>
+    <p class="page-subtitle">10 questions every designer should answer before any AI feature ships. Check them off as you go — your readiness score updates live.</p>
+
+    <div class="rf-summary-bar" id="rf-summary">
+      <div>
+        <div class="rf-total-score" id="rf-score-num">0/10</div>
+        <div class="rf-score-label">Questions cleared</div>
+      </div>
+      <div class="rf-bar-track" style="flex:1;min-width:120px;">
+        <div class="rf-bar-fill" id="rf-bar" style="width:0%"></div>
+      </div>
+      <div>
+        <div class="rf-verdict" id="rf-verdict">Not started</div>
+        <div class="rf-verdict-sub" id="rf-verdict-sub">Work through the checklist below</div>
+      </div>
+      <button class="rf-reset-btn" onclick="resetRedFlags()">Reset</button>
+    </div>
+
+    <div class="rf-category">
+      <div class="rf-cat-head">
+        <div class="rf-cat-title">🎨 UX & Design Readiness</div>
+        <div class="rf-progress-text" id="rf-prog-ux">0 / 3</div>
+      </div>
+      <div class="rf-items">
+        <div class="rf-item" onclick="toggleRF(this, 'ux')" data-id="rf1">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Have you designed all AI output states — loading, streaming, error, empty, and success?</div>
+            <div class="rf-item-why">AI responses have more states than regular UI. A missing error state ships as a blank screen or broken layout in prod.</div>
+          </div>
+          <span class="rf-severity sev-critical">Critical</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'ux')" data-id="rf2">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Is it clear to the user that this content was generated by AI?</div>
+            <div class="rf-item-why">Users who don't know output is AI-generated will trust it more than they should — and blame the product when it's wrong.</div>
+          </div>
+          <span class="rf-severity sev-high">High</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'ux')" data-id="rf3">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Can users easily correct, edit, or dismiss AI output without friction?</div>
+            <div class="rf-item-why">AI will be wrong. If correction requires too many steps, users will abandon the feature rather than fix it.</div>
+          </div>
+          <span class="rf-severity sev-high">High</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rf-category">
+      <div class="rf-cat-head">
+        <div class="rf-cat-title">🤖 AI Behavior & Safety</div>
+        <div class="rf-progress-text" id="rf-prog-safety">0 / 3</div>
+      </div>
+      <div class="rf-items">
+        <div class="rf-item" onclick="toggleRF(this, 'safety')" data-id="rf4">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Have you tested what happens when the AI produces a hallucinated or factually wrong response?</div>
+            <div class="rf-item-why">Hallucination is not a bug — it's a known behavior. Your design needs to account for it, not assume it won't happen.</div>
+          </div>
+          <span class="rf-severity sev-critical">Critical</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'safety')" data-id="rf5">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Do you have guardrails defined for what the AI should never say or do in this feature?</div>
+            <div class="rf-item-why">Without explicit constraints, the AI will occasionally go off-brand, give dangerous advice, or expose sensitive information.</div>
+          </div>
+          <span class="rf-severity sev-critical">Critical</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'safety')" data-id="rf6">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Is there a human-in-the-loop step for any high-stakes AI action (sending messages, making payments, modifying records)?</div>
+            <div class="rf-item-why">A wrong AI answer is annoying. A wrong AI action — sending the wrong amount, emailing the wrong customer — is a real incident.</div>
+          </div>
+          <span class="rf-severity sev-critical">Critical</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rf-category">
+      <div class="rf-cat-head">
+        <div class="rf-cat-title">📋 Product & PM Readiness</div>
+        <div class="rf-progress-text" id="rf-prog-pm">0 / 2</div>
+      </div>
+      <div class="rf-items">
+        <div class="rf-item" onclick="toggleRF(this, 'pm')" data-id="rf7">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Do you have a quality baseline — an eval score or acceptance threshold — that defines "good enough to ship"?</div>
+            <div class="rf-item-why">Without a defined threshold, "good enough" is subjective and AI features ship on gut feel. That's how bad experiences get to production.</div>
+          </div>
+          <span class="rf-severity sev-high">High</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'pm')" data-id="rf8">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Do you know the per-interaction cost, and does it fit within your product's unit economics?</div>
+            <div class="rf-item-why">AI features can look cheap in testing and bankrupt a feature at scale. 10,000 daily users × $0.02/call = $6k/month before you notice.</div>
+          </div>
+          <span class="rf-severity sev-medium">Medium</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="rf-category">
+      <div class="rf-cat-head">
+        <div class="rf-cat-title">⚙️ Technical & Performance</div>
+        <div class="rf-progress-text" id="rf-prog-tech">0 / 2</div>
+      </div>
+      <div class="rf-items">
+        <div class="rf-item" onclick="toggleRF(this, 'tech')" data-id="rf9">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Have you designed for latency — including a fallback experience when the AI call is slow (&gt;3 seconds) or fails completely?</div>
+            <div class="rf-item-why">Network issues, rate limits, and model outages happen. A blank screen or spinner with no timeout message destroys trust fast.</div>
+          </div>
+          <span class="rf-severity sev-high">High</span>
+        </div>
+        <div class="rf-item" onclick="toggleRF(this, 'tech')" data-id="rf10">
+          <div class="rf-checkbox"></div>
+          <div class="rf-item-content">
+            <div class="rf-item-q">Is user data handled appropriately — have you confirmed what data is sent to the AI and that it meets privacy requirements?</div>
+            <div class="rf-item-why">Sending PII, payment data, or dealership-sensitive information to a third-party AI API without review is a compliance risk.</div>
+          </div>
+          <span class="rf-severity sev-critical">Critical</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="page" id="page-cheatsheet">
+    <p class="page-title">The <em>Quick Reference</em> Cheat Sheet</p>
+    <p class="page-subtitle">Bookmark this. Print it. Paste it in your Notion. Everything you need in one scannable view.</p>
+
+    <div class="section-label">Prompt Do's and Don'ts</div>
+    <div class="cheat-grid">
+      <div class="cheat-card">
+        <span class="cheat-icon">🎭</span>
+        <div class="cheat-title">Setting the Role</div>
+        <div class="cheat-do">Start with "You are a [specific expert]..."</div>
+        <div class="cheat-do">Include domain and experience level</div>
+        <div class="cheat-dont">Say "Act as an AI that helps with..."</div>
+        <div class="cheat-dont">Skip the role entirely for complex tasks</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">📐</span>
+        <div class="cheat-title">Format Control</div>
+        <div class="cheat-do">Specify exactly: "3 bullets, each max 20 words"</div>
+        <div class="cheat-do">Use word/character limits for short-form copy</div>
+        <div class="cheat-dont">Say "keep it brief" without a number</div>
+        <div class="cheat-dont">Ask for a "table" without specifying columns</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">✍️</span>
+        <div class="cheat-title">Tone & Voice</div>
+        <div class="cheat-do">Show an example: "Like this: [paste example]"</div>
+        <div class="cheat-do">Define the audience reading level</div>
+        <div class="cheat-dont">Say "professional but not too formal"</div>
+        <div class="cheat-dont">Use vague descriptors: friendly, engaging, etc.</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🔢</span>
+        <div class="cheat-title">Task Clarity</div>
+        <div class="cheat-do">One main task per prompt</div>
+        <div class="cheat-do">Use action verbs: write / analyze / compare / list</div>
+        <div class="cheat-dont">Bundle 5 tasks in one prompt</div>
+        <div class="cheat-dont">Use passive phrasing: "I need help with..."</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🧠</span>
+        <div class="cheat-title">Complex Reasoning</div>
+        <div class="cheat-do">Add "Think step-by-step before answering"</div>
+        <div class="cheat-do">Ask for pros/cons before a recommendation</div>
+        <div class="cheat-dont">Expect perfect logic without guiding the reasoning</div>
+        <div class="cheat-dont">Accept the first answer for high-stakes decisions</div>
+      </div>
+      <div class="cheat-card">
+        <span class="cheat-icon">🔁</span>
+        <div class="cheat-title">Iteration</div>
+        <div class="cheat-do">Tell the AI what was wrong: "Too formal — try again"</div>
+        <div class="cheat-do">Ask for 3 variations then pick and refine</div>
+        <div class="cheat-dont">Accept mediocre output — push back with specifics</div>
+        <div class="cheat-dont">Start a new chat — continue refining in the same thread</div>
+      </div>
+    </div>
+
+    <div class="section-label">Key Phrases That Improve Output</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:2rem;">
+      <div style="background:var(--card);border:1px solid rgba(26,18,8,0.1);padding:1.1rem;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent4);margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">For Better Structure</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Present as a numbered list with headings"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Use a table with columns: [col1], [col2], [col3]"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Start each point with a bold label"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0;padding-left:1.1rem;position:relative;font-weight:300;">"Separate your answer into: [section A] and [section B]"</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(26,18,8,0.1);padding:1.1rem;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent);margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">For Better Quality</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Think step-by-step before giving your final answer"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Give me your 3 best options, not just one"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Flag any assumptions you're making"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0;padding-left:1.1rem;position:relative;font-weight:300;">"If you're uncertain, say so — don't guess"</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(26,18,8,0.1);padding:1.1rem;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;color:var(--accent2);margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">For Better Tone</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Write at a 7th grade reading level"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Avoid jargon. If you use a technical term, define it inline."</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Use active voice throughout"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0;padding-left:1.1rem;position:relative;font-weight:300;">"Write as if speaking to a smart friend, not a client"</div>
+      </div>
+      <div style="background:var(--card);border:1px solid rgba(26,18,8,0.1);padding:1.1rem;border-radius:2px;">
+        <div style="font-family:'DM Mono',monospace;font-size:0.72rem;font-weight:500;color:#8a6900;margin-bottom:0.8rem;text-transform:uppercase;letter-spacing:0.08em;">For Iteration</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"The second option is closest. Make it more [X]."</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"Keep everything the same but change the tone to [Y]"</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0.35rem;padding-left:1.1rem;position:relative;font-weight:300;">"You went too [long/formal/vague]. Rewrite to fix just that."</div>
+        <div class="tip-item" style="font-size:0.82rem;color:var(--muted);margin-bottom:0;padding-left:1.1rem;position:relative;font-weight:300;">"Give me 3 more variations, each trying a different angle"</div>
+      </div>
+    </div>
+
+    <div class="section-label">Prompts by Situation</div>
+    <div style="background:var(--card);border:1px solid rgba(26,18,8,0.1);border-radius:2px;overflow:hidden;margin-bottom:2rem;">
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.08);">
+        <div style="padding:0.7rem 1rem;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);background:var(--cream);border-right:1px solid rgba(26,18,8,0.08);">Situation</div>
+        <div style="padding:0.7rem 1rem;font-family:'DM Mono',monospace;font-size:0.62rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--muted);background:var(--cream);">Starter Phrase</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Stuck on copy</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Give me 5 ways to say [X]. Each with a different emotional angle."</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Need to simplify</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Explain [X] in plain English for someone who is not technical."</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Want outside perspective</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Play the role of a skeptical user and tell me what's confusing about [X]."</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Prepping for a meeting</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"I'm about to present [X]. What are the 5 hardest questions I'll get?"</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Writing a brief</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Here's my rough idea: [X]. Turn it into a structured one-page brief."</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;border-bottom:1px solid rgba(26,18,8,0.06);">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Learning a concept</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Explain [technical concept] using an analogy a designer would understand."</div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 2fr;">
+        <div style="padding:0.75rem 1rem;font-size:0.82rem;border-right:1px solid rgba(26,18,8,0.06);font-weight:500;">Exploring options</div>
+        <div style="padding:0.75rem 1rem;font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--accent4);">"Give me 3 fundamentally different approaches to [problem], not just variations."</div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  myKaarma Design Team · AI Fluency Guide · For internal use · Built to keep you competitive
+</footer>
+
+<!-- SAVE AS TEMPLATE MODAL -->
+<div class="modal-overlay" id="saveModal" onclick="closeSaveModalOutside(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeSaveModal()">✕</button>
+    <div class="modal-title">＋ Save as Template</div>
+    <div class="modal-sub">Give your built prompt a name and choose a category so the team can find and reuse it.</div>
+    <div style="display:flex;flex-direction:column;gap:0.65rem;">
+      <div class="form-group">
+        <label class="form-label">Template Name <span class="req">*</span></label>
+        <input type="text" class="form-input" id="modal-name" placeholder="e.g., Onboarding Copy Generator">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Name</label>
+        <input type="text" class="form-input" id="modal-author" placeholder="e.g., Jordan L.">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" id="modal-cat">
+          <option value="ux">🎨 UX & Design</option>
+          <option value="pm">📋 PM & Strategy</option>
+          <option value="research">🔍 Research</option>
+          <option value="content">✍️ Content & Copy</option>
+          <option value="dev">🛠️ Dev Communication</option>
+          <option value="other">📦 Other</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">What it's for</label>
+        <input type="text" class="form-input" id="modal-use" placeholder="e.g., Generate onboarding email variants for A/B testing">
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="add-submit-btn" onclick="saveBuilderAsTemplate()" style="flex:1;">Save Template →</button>
+      <button class="modal-cancel" onclick="closeSaveModal()">Cancel</button>
+    </div>
+    <div id="modal-success" style="display:none;margin-top:0.75rem;font-family:'DM Mono',monospace;font-size:0.7rem;color:var(--accent2);letter-spacing:0.08em;">✓ Saved! Find it in the Templates tab under your chosen category.</div>
+  </div>
+</div>
+
+<script>
+  // PAGE NAV
+  function showPage(id, btn) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    const page = document.getElementById('page-' + id);
+    if (page) page.classList.add('active');
+    if (btn) btn.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function switchWsTab(id, btn) {
+    document.querySelectorAll('.ws-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.ws-tab').forEach(t => t.classList.remove('active'));
+    const panel = document.getElementById('ws-' + id);
+    if (panel) panel.classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  // GLOSSARY
+  function toggleCard(card) {
+    const isOpen = card.classList.contains('open');
+    document.querySelectorAll('.term-card.open').forEach(c => c.classList.remove('open'));
+    if (!isOpen) card.classList.add('open');
+    window._opened = window._opened || new Set();
+    document.querySelectorAll('.term-card').forEach((c, i) => { if (c.classList.contains('open')) window._opened.add(i); });
+    const pct = (window._opened.size / document.querySelectorAll('.term-card').length) * 100;
+    document.getElementById('progressBar').style.width = pct + '%';
+  }
+
+  function filterTerms(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.term-card').forEach(c => {
+      c.classList.toggle('hidden', cat !== 'all' && c.dataset.category !== cat);
+    });
+    document.querySelectorAll('.section-label').forEach(l => {
+      const sec = l.dataset.section;
+      if (!sec) return;
+      const vis = [...document.querySelectorAll(`.term-card[data-category="${sec}"]`)].some(c => !c.classList.contains('hidden'));
+      l.style.display = (cat === 'all' || vis) ? '' : 'none';
+    });
+  }
+
+  // TEMPLATES
+  function showTemplate(id, btn) {
+    document.querySelectorAll('.template-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tmpl-tab').forEach(t => t.classList.remove('active'));
+    const tmpl = document.getElementById('tmpl-' + id);
+    if (tmpl) tmpl.classList.add('active');
+    if (btn) btn.classList.add('active');
+  }
+
+  function copyTemplate(btn, id) {
+    const el = document.getElementById(id);
+    const text = el ? el.innerText : '';
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // BUILDER
+  function buildPrompt() {
+    const role = document.getElementById('b-role').value.trim();
+    const context = document.getElementById('b-context').value.trim();
+    const task = document.getElementById('b-task').value.trim();
+    const format = document.getElementById('b-format').value.trim();
+    const constraints = document.getElementById('b-constraints').value.trim();
+    const example = document.getElementById('b-example').value.trim();
+
+    const out = document.getElementById('builtPrompt');
+    const legend = document.getElementById('legend');
+
+    if (!role && !context && !task && !format && !constraints && !example) {
+      out.innerHTML = '<span class="placeholder-text">Your prompt will appear here as you fill in the fields on the left...</span>';
+      legend.style.display = 'none';
+      return;
+    }
+
+    let parts = [];
+    if (role) parts.push(`<span class="part-role">You are ${role}.</span>`);
+    if (context) parts.push(`<span class="part-context">${context}</span>`);
+    if (task) parts.push(`<span class="part-task">${task}</span>`);
+    if (format) parts.push(`<span class="part-format">Format: ${format}</span>`);
+    if (constraints) parts.push(`<span class="part-constraint">${constraints}</span>`);
+    if (example) parts.push(`<span class="part-example">Example: ${example}</span>`);
+
+    out.innerHTML = parts.join('\n\n');
+    legend.style.display = 'flex';
+  }
+
+  function copyOutput() {
+    const role = document.getElementById('b-role').value.trim();
+    const context = document.getElementById('b-context').value.trim();
+    const task = document.getElementById('b-task').value.trim();
+    const format = document.getElementById('b-format').value.trim();
+    const constraints = document.getElementById('b-constraints').value.trim();
+    const example = document.getElementById('b-example').value.trim();
+
+    let parts = [];
+    if (role) parts.push(`You are ${role}.`);
+    if (context) parts.push(context);
+    if (task) parts.push(task);
+    if (format) parts.push(`Format: ${format}`);
+    if (constraints) parts.push(constraints);
+    if (example) parts.push(`Example: ${example}`);
+
+    navigator.clipboard.writeText(parts.join('\n\n')).then(() => {
+      const btn = document.getElementById('copyOutputBtn');
+      if (!btn) return;
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  // ANIMATE IN
+  document.querySelectorAll('.term-card, .principle-card, .cheat-card').forEach((el, i) => {
+    el.style.opacity = '0';
+    el.style.transform = 'translateY(8px)';
+    setTimeout(() => {
+      el.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+      el.style.opacity = '1';
+      el.style.transform = 'translateY(0)';
+    }, 60 + i * 30);
+  });
+
+  // Tip item pseudo-element via JS (since we can't use ::before in inline)
+  document.querySelectorAll('.tip-item').forEach(el => {
+    el.style.cssText += 'display:flex;gap:0.6rem;';
+  });
+
+  // ── COMMUNITY TEMPLATE STORE (in-memory) ──
+  let communityTemplates = [];
+
+  const CATEGORY_LABELS = {
+    ux: '🎨 UX & Design',
+    pm: '📋 PM & Strategy',
+    research: '🔍 Research',
+    content: '✍️ Content & Copy',
+    dev: '🛠️ Dev Communication',
+    other: '📦 Other'
+  };
+
+  function submitTemplate() {
+    const name   = document.getElementById('at-name').value.trim();
+    const author = document.getElementById('at-author').value.trim();
+    const cat    = document.getElementById('at-cat').value;
+    const use    = document.getElementById('at-use').value.trim();
+    const prompt = document.getElementById('at-prompt').value.trim();
+
+    if (!name || !prompt) {
+      alert('Please fill in the template name and prompt before adding.');
+      return;
+    }
+
+    const newTemplate = { id: Date.now(), name, author: author || 'Anonymous', cat, use, prompt };
+    communityTemplates.push(newTemplate);
+    renderCommunityTemplates();
+
+    // Log to changelog
+    addChangelogEntry({ ts: Date.now(), type: 'add', templateId: newTemplate.id, templateName: newTemplate.name, author: newTemplate.author, reason: '', before: '', after: prompt });
+
+    document.getElementById('at-name').value = '';
+    document.getElementById('at-author').value = '';
+    document.getElementById('at-use').value = '';
+    document.getElementById('at-prompt').value = '';
+
+    const success = document.getElementById('at-success');
+    success.style.display = 'block';
+    setTimeout(() => { success.style.display = 'none'; }, 3000);
+  }
+
+  function deleteTemplate(id) {
+    communityTemplates = communityTemplates.filter(t => t.id !== id);
+    renderCommunityTemplates();
+  }
+
+  function renderCommunityTemplates() {
+    // Clear all injected community cards from each panel
+    const panels = ['ux','pm','research','content','dev','other'];
+    panels.forEach(cat => {
+      const panel = document.getElementById('tmpl-' + cat);
+      if (!panel) return;
+      panel.querySelectorAll('.community-card').forEach(c => c.remove());
+    });
+
+    // Re-inject into correct panels
+    communityTemplates.forEach(t => {
+      const panel = document.getElementById('tmpl-' + t.cat);
+      if (!panel) return;
+
+      const div = document.createElement('div');
+      div.className = 'community-card';
+      div.dataset.communityId = t.id;
+      div.innerHTML = `
+        <div class="template-header">
+          <div>
+            <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+              <div class="template-name">${escHtml(t.name)}</div>
+              <span class="community-badge">Team</span>
+              <span style="font-family:'DM Mono',monospace;font-size:0.6rem;color:var(--muted);background:var(--cream);padding:0.15rem 0.45rem;border-radius:2px;">${CATEGORY_LABELS[t.cat] || t.cat}</span>
+            </div>
+            ${t.use ? `<div class="template-use">${escHtml(t.use)}</div>` : ''}
+            <div class="author-tag">Added by ${escHtml(t.author)}</div>
+          </div>
+          <div style="display:flex;gap:0.4rem;flex-shrink:0;">
+            <button class="copy-btn" onclick="copyTextDirect('${escAttr(t.prompt)}', this)">Copy</button>
+            <button class="edit-btn" onclick="openEditModal('${t.id}', true)">Edit</button>
+            <button class="delete-tmpl-btn" onclick="deleteTemplate(${t.id})">Remove</button>
+          </div>
+        </div>
+        <div class="template-body">
+          <div class="prompt-block">${escHtml(t.prompt)}</div>
+        </div>
+      `;
+      panel.insertBefore(div, panel.firstChild);
+    });
+
+    // Handle Other empty state
+    const otherPanel = document.getElementById('tmpl-other');
+    const otherEmpty = document.getElementById('other-empty');
+    if (otherEmpty) {
+      const hasOther = communityTemplates.some(t => t.cat === 'other');
+      otherEmpty.style.display = hasOther ? 'none' : 'block';
+    }
+  }
+
+  function copyTextDirect(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+
+  function escHtml(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function escAttr(s) {
+    return String(s).replace(/\\/g,'\\\\').replace(/'/g,"\\'").replace(/\n/g,'\\n').replace(/"/g,'\\"');
+  }
+
+  // ── SAVE AS TEMPLATE FROM BUILDER ──
+  function openSaveModal() {
+    const role    = document.getElementById('b-role').value.trim();
+    const context = document.getElementById('b-context').value.trim();
+    const task    = document.getElementById('b-task').value.trim();
+
+    if (!role && !context && !task) {
+      alert('Fill in at least a Role, Context, or Task before saving as a template.');
+      return;
+    }
+
+    document.getElementById('modal-success').style.display = 'none';
+    document.getElementById('modal-name').value = '';
+    document.getElementById('modal-author').value = '';
+    document.getElementById('modal-use').value = '';
+    document.getElementById('saveModal').classList.add('open');
+  }
+
+  function closeSaveModal() {
+    document.getElementById('saveModal').classList.remove('open');
+  }
+
+  function closeSaveModalOutside(e) {
+    if (e.target === document.getElementById('saveModal')) closeSaveModal();
+  }
+
+  function saveBuilderAsTemplate() {
+    const name   = document.getElementById('modal-name').value.trim();
+    const author = document.getElementById('modal-author').value.trim();
+    const cat    = document.getElementById('modal-cat').value;
+    const use    = document.getElementById('modal-use').value.trim();
+
+    if (!name) {
+      alert('Please give your template a name.');
+      return;
+    }
+
+    // Assemble the prompt text from builder fields
+    const role        = document.getElementById('b-role').value.trim();
+    const context     = document.getElementById('b-context').value.trim();
+    const task        = document.getElementById('b-task').value.trim();
+    const format      = document.getElementById('b-format').value.trim();
+    const constraints = document.getElementById('b-constraints').value.trim();
+    const example     = document.getElementById('b-example').value.trim();
+
+    let parts = [];
+    if (role)        parts.push(`You are ${role}.`);
+    if (context)     parts.push(context);
+    if (task)        parts.push(task);
+    if (format)      parts.push(`Format: ${format}`);
+    if (constraints) parts.push(constraints);
+    if (example)     parts.push(`Example: ${example}`);
+
+    communityTemplates.push({
+      id: Date.now(),
+      name,
+      author: author || 'Anonymous',
+      cat,
+      use,
+      prompt: parts.join('\n\n')
+    });
+
+    renderCommunityTemplates();
+
+    document.getElementById('modal-success').style.display = 'block';
+    setTimeout(() => {
+      closeSaveModal();
+    }, 2000);
+  }
+
+  // ══════════════════════════════════════════
+  // GLOSSARY SEARCH
+  // ══════════════════════════════════════════
+  function searchGlossary(query) {
+    const cards = document.querySelectorAll('#page-glossary .term-card');
+    const q = query.trim().toLowerCase();
+    let visible = 0;
+
+    cards.forEach(card => {
+      if (!q) {
+        card.classList.remove('search-hidden');
+        // Remove any highlights
+        card.querySelectorAll('.term-highlight').forEach(el => {
+          el.outerHTML = el.textContent;
+        });
+        visible++;
+        return;
+      }
+      const text = card.textContent.toLowerCase();
+      if (text.includes(q)) {
+        card.classList.remove('search-hidden');
+        visible++;
+      } else {
+        card.classList.add('search-hidden');
+      }
+    });
+
+    const countEl = document.getElementById('searchCount');
+    if (q) {
+      countEl.textContent = visible === 0
+        ? 'No terms found — try a different word'
+        : `${visible} term${visible !== 1 ? 's' : ''} found`;
+    } else {
+      countEl.textContent = '';
+    }
+
+    // Also hide section labels if all their terms are hidden
+    document.querySelectorAll('#page-glossary .section-label[data-section]').forEach(label => {
+      const sec = label.dataset.section;
+      const anyVisible = [...document.querySelectorAll(`#page-glossary .term-card[data-category="${sec}"]`)]
+        .some(c => !c.classList.contains('search-hidden') && !c.classList.contains('hidden'));
+      label.style.display = (anyVisible || !q) ? '' : 'none';
+    });
+  }
+
+  // ══════════════════════════════════════════
+  // AI PROMPT CRITIQUE
+  // ══════════════════════════════════════════
+  const critiqueExamples = [
+    {
+      prompt: "Write an error message.",
+      context: ""
+    },
+    {
+      prompt: "Write 3 error messages for when a payment fails in our app. They should feel friendly and not technical.",
+      context: "myKaarma payment flow"
+    },
+    {
+      prompt: `You are a UX writer for myKaarma, an automotive service lane platform. Our users are service advisors at car dealerships.
+
+Write 3 versions of an error message for when a customer's payment fails during checkout.
+
+Format: For each version — Headline (max 6 words), Body text (max 20 words, explains what happened and what to do), CTA button (max 4 words).
+
+Tone: Warm and clear — not technical, not alarming. The advisor needs to stay calm while talking to the customer.
+
+Never use: error codes, the word "invalid", passive voice.
+
+Example of tone we like: "Something went wrong — let's try that again."`,
+      context: "myKaarma payment processing, service advisor UI"
+    }
+  ];
+
+  function loadCritiqueExample(i) {
+    document.getElementById('critique-input').value = critiqueExamples[i].prompt;
+    // prefill shared context bar too
+    const ctx = document.getElementById('ws-context');
+    if (critiqueExamples[i].context && ctx) ctx.value = critiqueExamples[i].context;
+  }
+
+  async function runCritique() {
+    const prompt = document.getElementById('critique-input').value.trim();
+    if (!prompt) { alert('Paste a prompt to critique first.'); return; }
+
+    const context = (document.getElementById('ws-context') || {}).value?.trim() || '';
+    const btn = document.getElementById('critique-btn');
+    const output = document.getElementById('critique-output');
+    const loading = document.getElementById('critique-loading');
+    const badge = document.getElementById('critique-score-badge');
+
+    btn.disabled = true;
+    btn.textContent = 'Analysing…';
+    badge.innerHTML = '';
+    output.innerHTML = '';
+    if (loading) loading.style.display = 'flex';
+
+    const systemPrompt = `You are an expert prompt engineer and UX design coach at myKaarma. Your job is to critique prompts written by product designers who are learning to use AI effectively.
+
+Evaluate the prompt across these 6 dimensions (score each 1–5):
+1. Role — Does it give the AI a clear persona/expertise?
+2. Context — Does it provide enough background?
+3. Task — Is the ask specific and action-oriented?
+4. Format — Is the desired output format specified?
+5. Constraints — Are tone, length, and restrictions defined?
+6. Example — Is there a sample or reference provided?
+
+Then provide:
+- An OVERALL SCORE label: WEAK (6–14), DEVELOPING (15–22), or STRONG (23–30)
+- 3 specific things that would most improve this prompt (numbered, concise)
+- A one-sentence encouragement
+
+Format your response exactly like this:
+
+SCORES
+Role: X/5
+Context: X/5
+Task: X/5
+Format: X/5
+Constraints: X/5
+Example: X/5
+Total: XX/30 — [WEAK / DEVELOPING / STRONG]
+
+TOP 3 IMPROVEMENTS
+1. [specific, actionable suggestion]
+2. [specific, actionable suggestion]
+3. [specific, actionable suggestion]
+
+COACHING NOTE
+[One warm, specific sentence of encouragement or direction]
+
+Keep the whole response under 200 words. Be direct and specific — vague feedback is useless.`;
+
+    const userMsg = context
+      ? `Here is the prompt to critique:\n\n"${prompt}"\n\nContext about what this prompt is for: ${context}`
+      : `Here is the prompt to critique:\n\n"${prompt}"`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userMsg }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content?.map(b => b.text || '').join('') || 'No response received.';
+
+      // Parse score for badge
+      const totalMatch = text.match(/Total:\s*(\d+)\/30\s*[—–-]\s*(WEAK|DEVELOPING|STRONG)/i);
+      if (totalMatch) {
+        const scoreNum = parseInt(totalMatch[1]);
+        const scoreLabel = totalMatch[2].toUpperCase();
+        const cls = scoreLabel === 'WEAK' ? 'score-weak' : scoreLabel === 'DEVELOPING' ? 'score-ok' : 'score-strong';
+        const emoji = scoreLabel === 'WEAK' ? '⚠️' : scoreLabel === 'DEVELOPING' ? '📈' : '✅';
+        badge.innerHTML = `<span class="ai-score-badge ${cls}">${emoji} ${scoreLabel} · ${scoreNum}/30</span>`;
+      }
+
+      output.innerHTML = formatAIResponse(text);
+
+    } catch(e) {
+      output.innerHTML = `<span style="color:rgba(255,100,100,0.8);font-size:0.82rem;">Something went wrong: ${e.message}</span>`;
+    }
+
+    if (loading) loading.style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Critique My Prompt →';
+  }
+
+  // ══════════════════════════════════════════
+  // BEFORE / AFTER TRANSFORMER
+  // ══════════════════════════════════════════
+  let baMode = 'rewrite';
+
+  function setBAMode(mode, btn) {
+    baMode = mode;
+    document.querySelectorAll('.ba-mode-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  const baExamples = [
+    { prompt: "Write an error message for our app.", purpose: "myKaarma payment checkout flow" },
+    { prompt: "Give me feedback on my design.", purpose: "Service lane mobile check-in screen" },
+    { prompt: "Help me write a brief for a new feature.", purpose: "AI-powered appointment scheduling for dealers" }
+  ];
+
+  function loadBAExample(i) {
+    document.getElementById('ba-input').value = baExamples[i].prompt;
+    const ctx = document.getElementById('ws-context');
+    if (ctx && baExamples[i].purpose) ctx.value = baExamples[i].purpose;
+  }
+
+  async function runTransformer() {
+    const original = document.getElementById('ba-input').value.trim();
+    if (!original) { alert('Paste a prompt to transform first.'); return; }
+
+    const purpose = (document.getElementById('ws-context') || {}).value?.trim() || '';
+    const btn = document.getElementById('ba-btn');
+    const output = document.getElementById('ba-output');
+    const copyBtn = document.getElementById('ba-copy-btn');
+    const loadingEl = document.getElementById('ba-loading');
+
+    btn.disabled = true;
+    btn.textContent = 'Transforming…';
+    copyBtn.style.display = 'none';
+    output.innerHTML = '';
+    if (loadingEl) loadingEl.style.display = 'flex';
+
+    const withExplain = baMode === 'explain';
+
+    const systemPrompt = `You are a prompt engineering expert for myKaarma's design team. You rewrite weak, vague prompts into strong, structured prompts using the 6-block anatomy: Role, Context, Task, Format, Constraints, Example.
+
+${withExplain ? `After the rewritten prompt, add a section called "WHAT CHANGED" that explains each block you added and why, in plain language a designer can learn from. Keep explanations short — one sentence per block.` : 'Just provide the rewritten prompt with no extra explanation.'}
+
+Rules for the rewrite:
+- Label each block clearly (e.g. [ROLE], [CONTEXT], [TASK], [FORMAT], [CONSTRAINTS], [EXAMPLE])
+- Only include blocks that genuinely improve the prompt — don't force all 6 if not needed
+- Keep the user's original intent intact — don't change what they're asking for
+- Make it specific and actionable
+- If purpose context was provided, incorporate it into the rewrite`;
+
+    const userMsg = `Original weak prompt: "${original}"${purpose ? `\n\nWhat it's for: ${purpose}` : ''}\n\nPlease rewrite this into a strong, structured prompt.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 1000,
+          system: systemPrompt,
+          messages: [{ role: 'user', content: userMsg }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content?.map(b => b.text || '').join('') || 'No response received.';
+
+      output.innerHTML = formatAIResponse(text);
+      copyBtn.style.display = 'block';
+      copyBtn.dataset.text = text;
+
+    } catch(e) {
+      output.innerHTML = `<span style="color:rgba(255,100,100,0.8);font-size:0.82rem;">Something went wrong: ${e.message}</span>`;
+    }
+
+    if (loadingEl) loadingEl.style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Transform My Prompt →';
+  }
+
+  function copyBAOutput() {
+    const btn = document.getElementById('ba-copy-btn');
+    const text = document.getElementById('ba-output').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = 'Copied!';
+      setTimeout(() => { btn.textContent = 'Copy'; }, 2000);
+    });
+  }
+
+  function formatAIResponse(text) {
+    // Simple formatting: bold section headers, preserve line breaks
+    return text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/^(SCORES|TOP 3 IMPROVEMENTS|COACHING NOTE|WHAT CHANGED|##.+)$/gm,
+        '<span style="font-family:\'DM Mono\',monospace;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.4);display:block;margin-top:1rem;margin-bottom:0.3rem;">$1</span>')
+      .replace(/^\[([A-Z]+)\]/gm,
+        '<span style="font-family:\'DM Mono\',monospace;font-size:0.65rem;letter-spacing:0.12em;color:#fca5a5;font-weight:500;">[$1]</span>')
+      .replace(/\n/g, '<br>');
+  }
+
+  // ══════════════════════════════════════════
+  // RED FLAGS CHECKLIST
+  // ══════════════════════════════════════════
+  const rfCounts = { ux: 3, safety: 3, pm: 2, tech: 2 };
+  const rfChecked = { ux: new Set(), safety: new Set(), pm: new Set(), tech: new Set() };
+
+  function toggleRF(el, cat) {
+    const id = el.dataset.id;
+    const checked = rfChecked[cat];
+
+    if (el.classList.contains('checked')) {
+      el.classList.remove('checked');
+      checked.delete(id);
+    } else {
+      el.classList.add('checked');
+      checked.add(id);
+    }
+
+    updateRFProgress(cat);
+    updateRFSummary();
+  }
+
+  function updateRFProgress(cat) {
+    const total = rfCounts[cat];
+    const done = rfChecked[cat].size;
+    const el = document.getElementById(`rf-prog-${cat}`);
+    if (el) el.textContent = `${done} / ${total}`;
+  }
+
+  function updateRFSummary() {
+    const totalDone = Object.values(rfChecked).reduce((sum, s) => sum + s.size, 0);
+    const totalAll = Object.values(rfCounts).reduce((sum, n) => sum + n, 0);
+    const pct = Math.round((totalDone / totalAll) * 100);
+
+    document.getElementById('rf-score-num').textContent = `${totalDone}/${totalAll}`;
+    document.getElementById('rf-bar').style.width = pct + '%';
+
+    let verdict, sub;
+    if (totalDone === 0) {
+      verdict = 'Not started';
+      sub = 'Work through the checklist below';
+    } else if (totalDone < 4) {
+      verdict = '⚠️ Not ready to ship';
+      sub = 'Several critical gaps remain — keep going';
+    } else if (totalDone < 7) {
+      verdict = '📈 Getting there';
+      sub = 'Solid progress — close the remaining gaps';
+    } else if (totalDone < 10) {
+      verdict = '✅ Almost ready';
+      sub = 'Nearly there — check the final items';
+    } else {
+      verdict = '🚀 Ready to ship';
+      sub = 'All questions cleared — nice work';
+    }
+
+    document.getElementById('rf-verdict').textContent = verdict;
+    document.getElementById('rf-verdict-sub').textContent = sub;
+  }
+
+  function resetRedFlags() {
+    Object.keys(rfChecked).forEach(k => rfChecked[k].clear());
+    document.querySelectorAll('.rf-item.checked').forEach(el => el.classList.remove('checked'));
+    Object.keys(rfCounts).forEach(cat => updateRFProgress(cat));
+    updateRFSummary();
+  }
+
+  // ══════════════════════════════════════════
+  // TEMPLATE EDITING + CHANGELOG SYSTEM
+  // ══════════════════════════════════════════
+
+  // In-memory store for edited content and version history
+  // Shape: { [templateId]: { name, use, prompt, versions: [{ts, author, reason, name, use, prompt}] } }
+  const templateEdits = {};
+
+  // Changelog: flat list of events (most recent first)
+  // Each: { ts, type:'edit'|'add'|'restore', templateId, templateName, author, reason, before, after }
+  const changelog = [];
+
+  // ── BUILT-IN TEMPLATE DATA (read from DOM on first access) ──
+  function getBuiltinData(id) {
+    const el = document.getElementById(id);
+    if (!el) return null;
+    // Strip HTML tags from prompt-block to get plain text
+    const clone = el.cloneNode(true);
+    // Replace <span class="fill-in"> with their text
+    clone.querySelectorAll('span').forEach(s => {
+      s.replaceWith(s.textContent);
+    });
+    const prompt = clone.textContent;
+    // Get name and use from the card header
+    const card = el.closest('.template-card');
+    const name = card ? (card.querySelector('.template-name')?.textContent || id) : id;
+    const use  = card ? (card.querySelector('.template-use')?.textContent || '') : '';
+    return { name, use, prompt };
+  }
+
+  // ── GET CURRENT CONTENT for a template (edits override built-in) ──
+  function getCurrentContent(id) {
+    if (templateEdits[id]) return templateEdits[id];
+    return getBuiltinData(id);
+  }
+
+  // ── FORMAT TIMESTAMP ──
+  function fmtTs(ts) {
+    const d = new Date(ts);
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      + ' · ' + d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+  }
+
+  // ── SIMPLE WORD-LEVEL DIFF (returns {removed, added}) ──
+  function simpleDiff(before, after) {
+    if (before === after) return null;
+    return { removed: before.trim(), added: after.trim() };
+  }
+
+  // ── OPEN EDIT MODAL ──
+  let editingId = null;
+  let editingIsCommunity = false;
+
+  function openEditModal(id, isCommunity) {
+    editingId = id;
+    editingIsCommunity = isCommunity;
+
+    let data;
+    if (isCommunity) {
+      const t = communityTemplates.find(t => String(t.id) === String(id));
+      if (!t) return;
+      data = { name: t.name, use: t.use || '', prompt: t.prompt };
+    } else {
+      data = getCurrentContent(id);
+    }
+    if (!data) return;
+
+    document.getElementById('edit-modal-title').textContent = '✏️ Edit — ' + data.name;
+    document.getElementById('edit-name').value   = data.name;
+    document.getElementById('edit-use').value    = data.use;
+    document.getElementById('edit-prompt').value = data.prompt;
+    document.getElementById('edit-author').value = '';
+    document.getElementById('edit-reason').value = '';
+    document.getElementById('edit-success').style.display = 'none';
+    document.getElementById('edit-diff-wrap').style.display = 'none';
+    document.getElementById('editModal').classList.add('open');
+
+    // Live diff preview
+    document.getElementById('edit-prompt').oninput = function() {
+      showEditDiff(data.prompt, this.value);
+    };
+  }
+
+  function showEditDiff(before, after) {
+    const wrap = document.getElementById('edit-diff-wrap');
+    const diffEl = document.getElementById('edit-diff');
+    if (before.trim() === after.trim()) {
+      wrap.style.display = 'none';
+      return;
+    }
+    wrap.style.display = 'block';
+    diffEl.innerHTML =
+      '<span class="diff-label" style="color:#b91c1c;">− Before</span>' +
+      escHtml(before.trim()) +
+      '\n\n<span class="diff-label" style="color:#166534;">+ After</span>' +
+      escHtml(after.trim());
+  }
+
+  function closeEditModal() {
+    document.getElementById('editModal').classList.remove('open');
+    editingId = null;
+  }
+  function closeEditModalOutside(e) {
+    if (e.target === document.getElementById('editModal')) closeEditModal();
+  }
+
+  function saveEdit() {
+    const newName   = document.getElementById('edit-name').value.trim();
+    const newUse    = document.getElementById('edit-use').value.trim();
+    const newPrompt = document.getElementById('edit-prompt').value.trim();
+    const author    = document.getElementById('edit-author').value.trim() || 'Anonymous';
+    const reason    = document.getElementById('edit-reason').value.trim();
+
+    if (!newPrompt) { alert('Prompt content cannot be empty.'); return; }
+
+    const id = editingId;
+
+    if (editingIsCommunity) {
+      // Edit a community template
+      const t = communityTemplates.find(t => String(t.id) === String(id));
+      if (!t) return;
+      const before = t.prompt;
+      if (!t.versions) t.versions = [];
+      t.versions.push({ ts: Date.now(), author, reason, name: t.name, use: t.use, prompt: t.prompt });
+      t.name   = newName || t.name;
+      t.use    = newUse;
+      t.prompt = newPrompt;
+      addChangelogEntry({ ts: Date.now(), type: 'edit', templateId: id, templateName: t.name, author, reason, before, after: newPrompt });
+      renderCommunityTemplates();
+    } else {
+      // Edit a built-in template
+      const current = getCurrentContent(id);
+      const before  = current ? current.prompt : '';
+      if (!templateEdits[id]) templateEdits[id] = { ...current, versions: [] };
+      templateEdits[id].versions.push({ ts: Date.now(), author, reason, ...templateEdits[id] });
+      templateEdits[id].name   = newName || templateEdits[id].name;
+      templateEdits[id].use    = newUse;
+      templateEdits[id].prompt = newPrompt;
+      addChangelogEntry({ ts: Date.now(), type: 'edit', templateId: id, templateName: newName || current.name, author, reason, before, after: newPrompt });
+      applyEditToDOM(id, newName, newUse, newPrompt);
+    }
+
+    document.getElementById('edit-success').style.display = 'block';
+    setTimeout(() => closeEditModal(), 1400);
+  }
+
+  // ── APPLY EDIT DIRECTLY TO BUILT-IN DOM ELEMENT ──
+  function applyEditToDOM(id, name, use, prompt) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    // Update prompt block — escape HTML, preserve line breaks
+    el.innerHTML = escHtml(prompt).replace(/\n/g, '\n');
+    el.style.whiteSpace = 'pre-wrap';
+    // Update name and use in card header
+    const card = el.closest('.template-card');
+    if (!card) return;
+    if (name) { const n = card.querySelector('.template-name'); if (n) n.textContent = name; }
+    if (use !== undefined) { const u = card.querySelector('.template-use'); if (u) u.textContent = use; }
+    // Add "edited" badge if not already there
+    const nameEl = card.querySelector('.template-name');
+    if (nameEl && !card.querySelector('.edited-badge')) {
+      const badge = document.createElement('span');
+      badge.className = 'edited-badge';
+      badge.style.cssText = 'font-family:"DM Mono",monospace;font-size:0.56rem;letter-spacing:0.08em;text-transform:uppercase;background:rgba(242,101,34,0.1);color:var(--accent);padding:0.12rem 0.4rem;border-radius:2px;margin-left:0.5rem;vertical-align:middle;';
+      badge.textContent = 'edited';
+      nameEl.appendChild(badge);
+    }
+  }
+
+  // ── CHANGELOG ──
+  function addChangelogEntry(entry) {
+    changelog.unshift(entry); // newest first
+    renderChangelog();
+    updateChangelogBadge();
+  }
+
+  function updateChangelogBadge() {
+    const tab = document.getElementById('changelog-tab');
+    if (!tab) return;
+    const existing = tab.querySelector('.cl-count-badge');
+    if (existing) existing.remove();
+    if (changelog.length > 0) {
+      const badge = document.createElement('span');
+      badge.className = 'cl-count-badge';
+      badge.textContent = changelog.length;
+      tab.appendChild(badge);
+    }
+  }
+
+  function renderChangelog() {
+    const list = document.getElementById('cl-list');
+    const empty = document.getElementById('cl-empty');
+    if (!list) return;
+
+    if (changelog.length === 0) {
+      list.innerHTML = '';
+      if (empty) empty.style.display = 'block';
+      return;
+    }
+    if (empty) empty.style.display = 'none';
+
+    list.innerHTML = changelog.map((entry, idx) => {
+      const typeLabel = entry.type === 'edit' ? 'Edited' : entry.type === 'restore' ? 'Restored' : 'Added';
+      const badgeCls  = entry.type === 'edit' ? 'cl-badge-edit' : entry.type === 'restore' ? 'cl-badge-restore' : 'cl-badge-add';
+      const diff = entry.before !== undefined && entry.after !== undefined && entry.before !== entry.after
+        ? `<div class="cl-diff" id="cl-diff-${idx}">
+            <div class="diff-removed"><span class="diff-label">− Before</span>${escHtml(entry.before.trim())}</div>
+            <div class="diff-added"><span class="diff-label">+ After</span>${escHtml(entry.after.trim())}</div>
+           </div>` : '';
+      const hasDiff = !!diff;
+      const canRestore = entry.type === 'edit' && entry.before;
+
+      return `<div class="cl-entry ${entry.type === 'restore' ? 'restore-entry' : ''}">
+        <div class="cl-entry-head">
+          <div>
+            <div class="cl-entry-meta">
+              <span class="cl-badge ${badgeCls}">${typeLabel}</span>
+              <span class="cl-tmpl-name">${escHtml(entry.templateName)}</span>
+            </div>
+            <div class="cl-timestamp">${fmtTs(entry.ts)} · by ${escHtml(entry.author || 'Anonymous')}</div>
+            ${entry.reason ? `<div class="cl-reason">"${escHtml(entry.reason)}"</div>` : ''}
+          </div>
+          <div class="cl-entry-actions">
+            ${hasDiff ? `<button class="cl-toggle-btn" onclick="toggleDiff(${idx})">View diff</button>` : ''}
+            ${canRestore ? `<button class="cl-restore-btn" onclick="openRestoreModal(${idx})">↩ Restore</button>` : ''}
+          </div>
+        </div>
+        ${diff}
+      </div>`;
+    }).join('');
+  }
+
+  function toggleDiff(idx) {
+    const el = document.getElementById(`cl-diff-${idx}`);
+    if (!el) return;
+    const isOpen = el.classList.contains('open');
+    el.classList.toggle('open', !isOpen);
+    // Update button text
+    const btn = el.closest('.cl-entry')?.querySelector('.cl-toggle-btn');
+    if (btn) btn.textContent = isOpen ? 'View diff' : 'Hide diff';
+  }
+
+  function clearChangelog() {
+    if (!confirm('Clear all changelog history? This cannot be undone.')) return;
+    changelog.length = 0;
+    renderChangelog();
+    updateChangelogBadge();
+  }
+
+  // ── RESTORE FLOW ──
+  let restoreIdx = null;
+
+  function openRestoreModal(idx) {
+    restoreIdx = idx;
+    const entry = changelog[idx];
+    if (!entry || !entry.before) return;
+    document.getElementById('restore-meta').textContent =
+      `Restoring "${entry.templateName}" to the version from before the edit on ${fmtTs(entry.ts)}.`;
+    document.getElementById('restore-preview').textContent = entry.before.trim();
+    document.getElementById('restore-author').value = '';
+    document.getElementById('restoreModal').classList.add('open');
+  }
+
+  function closeRestoreModal() {
+    document.getElementById('restoreModal').classList.remove('open');
+    restoreIdx = null;
+  }
+  function closeRestoreModalOutside(e) {
+    if (e.target === document.getElementById('restoreModal')) closeRestoreModal();
+  }
+
+  function confirmRestore() {
+    if (restoreIdx === null) return;
+    const entry  = changelog[restoreIdx];
+    const author = document.getElementById('restore-author').value.trim() || 'Anonymous';
+    const id     = entry.templateId;
+    const before = entry.after;  // current state is the "after" of that edit
+    const after  = entry.before; // we're going back to the "before"
+
+    // Apply restore
+    const isCommunity = communityTemplates.some(t => String(t.id) === String(id));
+    if (isCommunity) {
+      const t = communityTemplates.find(t => String(t.id) === String(id));
+      if (t) { t.prompt = after; renderCommunityTemplates(); }
+    } else {
+      if (!templateEdits[id]) templateEdits[id] = { ...getBuiltinData(id), versions: [] };
+      templateEdits[id].prompt = after;
+      applyEditToDOM(id, null, null, after);
+    }
+
+    addChangelogEntry({
+      ts: Date.now(), type: 'restore', templateId: id,
+      templateName: entry.templateName, author,
+      reason: `Restored to version from ${fmtTs(entry.ts)}`,
+      before, after
+    });
+
+    closeRestoreModal();
+  }
+
+
+</script>
+</body>
+</html>

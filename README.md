@@ -24,7 +24,7 @@ The guide is organized into six tabs:
 The guide is a single `.html` file. Open it in any modern browser — no server, framework, or dependencies required.
 
 ```
-open mykaarma-ai-guide-v6.html
+open mykaarma-ai-guide.html
 ```
 
 To share it with the team, drop the file in a shared drive, Notion embed, or internal server. Everything runs client-side.
@@ -158,6 +158,18 @@ mykaarma-ai-guide-v6.html
 | v4 | AI Prompt Critique, Before/After Transformer, Red Flags Checklist, Glossary search bar |
 | v5 | Consolidated to 6 tabs: Prompt Guide (principles + anatomy), Prompt Workshop (builder + critique + transformer) |
 | v6 | Edit and versioning system for all templates; Changelog tab with diff view and one-click restore |
+
+---
+
+## Repository files
+
+```
+mykaarma-ai-guide.html    — The complete guide (open in any browser, no install needed)
+prompt-workshop.jsx       — Standalone React artifact for the AI-powered Workshop tools
+README.md                 — This file
+```
+
+The `prompt-workshop.jsx` file is a self-contained React component designed to run inside [Claude.ai artifacts](https://claude.ai). It powers the Transform and Critique tools, which require authenticated API access that is handled automatically in that environment. Paste the contents of `prompt-workshop.jsx` into a new Claude artifact to use it.
 
 ---
 
